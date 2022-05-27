@@ -8,9 +8,12 @@ import {
     Button,
     PasswordInput,
     Group,
+    Alert,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
+
+import { TextInputError } from '../components/TextInputError'
 
 type UsersResponse = {
     Success: {
@@ -49,7 +52,8 @@ const UserSchema = z
 type UserSchema = z.infer<typeof UserSchema>
 
 export const SignUp: React.FC<RouteProps> = () => {
-    const [errorStatus, setErrorStatus] = useState('')
+    const [errorStatus, setErrorStatus] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const form = useForm({
         schema: zodResolver(UserSchema),
@@ -62,7 +66,7 @@ export const SignUp: React.FC<RouteProps> = () => {
     })
 
     const requestPOSTUser = (values: UserSchema) => {
-        setErrorStatus('')
+        setErrorStatus(false)
 
         const userData = {
             name: values.name,
@@ -80,7 +84,8 @@ export const SignUp: React.FC<RouteProps> = () => {
             .then((response) => {
                 if (!response.ok) {
                     response.json().then((data: UsersResponse['Error']) => {
-                        setErrorStatus(data.ErrorMessageJP)
+                        setErrorMessage(data.ErrorMessageJP)
+                        setErrorStatus(true)
                     })
                     return
                 }
@@ -89,14 +94,16 @@ export const SignUp: React.FC<RouteProps> = () => {
                 })
             })
             .catch(() => {
-                setErrorStatus('エラーが発生しました')
+                setErrorMessage('おや！なんらかのエラーが発生しました')
+                setErrorStatus(true)
             })
     }
+
     return (
         <Container size="xs">
             <Paper shadow="xs" radius="md" px={50} py={30} withBorder>
                 <h2>Sign up</h2>
-                <p>{errorStatus}</p>
+                {errorStatus && <TextInputError>{errorMessage}</TextInputError>}
                 <form
                     onSubmit={form.onSubmit((values) =>
                         requestPOSTUser(values)

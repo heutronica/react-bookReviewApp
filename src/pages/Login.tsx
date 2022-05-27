@@ -11,6 +11,7 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
+import { TextInputError } from '../components/TextInputError'
 
 type SignInResponse = {
     Success: {
@@ -31,7 +32,8 @@ const UserSchema = z.object({
 type User = z.infer<typeof UserSchema>
 
 export const Login: React.FC<RouteProps> = () => {
-    const [errorStatus, setErrorStatus] = useState('')
+    const [errorStatus, setErrorStatus] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const form = useForm({
         schema: zodResolver(UserSchema),
@@ -42,7 +44,8 @@ export const Login: React.FC<RouteProps> = () => {
     })
 
     const requestLogin = (values: User) => {
-        setErrorStatus('')
+        setErrorStatus(false)
+
         fetch('https://api-for-missions-and-railways.herokuapp.com/signin', {
             method: 'POST',
             body: JSON.stringify(values),
@@ -53,7 +56,8 @@ export const Login: React.FC<RouteProps> = () => {
             .then((response) => {
                 if (!response.ok) {
                     response.json().then((data: SignInResponse['Error']) => {
-                        setErrorStatus(data.ErrorMessageJP)
+                        setErrorMessage(data.ErrorMessageJP)
+                        setErrorStatus(true)
                     })
                     return
                 }
@@ -62,7 +66,8 @@ export const Login: React.FC<RouteProps> = () => {
                 })
             })
             .catch(() => {
-                setErrorStatus('エラーが発生しました')
+                setErrorMessage('おや！なんらかのエラーが発生しました')
+                setErrorStatus(true)
             })
     }
 
@@ -70,7 +75,7 @@ export const Login: React.FC<RouteProps> = () => {
         <Container size="xs">
             <Paper shadow="xs" radius="md" px={50} py={30} withBorder>
                 <h2>Login</h2>
-                <p>{errorStatus}</p>
+                {errorStatus && <TextInputError>{errorMessage}</TextInputError>}
                 <form
                     onSubmit={form.onSubmit((values) => requestLogin(values))}
                 >
