@@ -1,38 +1,29 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { Login } from "./login/Login";
-import { Signup } from "./signup/Signup";
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { Login } from './pages/Login'
+import { SignUp } from './pages/SignUp'
+import { Books } from './pages/Books'
+import { Header } from './components/Header'
 
 function App() {
-  return (
-    <Router>
-      <h1>Hello React Router</h1>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/signup">Signup</Link>
-        </li>
-      </ul>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Books />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/SignUp" element={<SignUp />} />
+            </Routes>
+        </Router>
+    )
 }
 
 function Home() {
-  return (
-    <>
-      <h2>Home</h2>
-    </>
-  );
+    return (
+        <>
+            <h2>Home</h2>
+        </>
+    )
 }
 
-export default App;
+export default App
