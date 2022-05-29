@@ -23,7 +23,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const signOut = (callback: VoidFunction) => {
+        sessionStorage.removeItem('auth.token')
         setIsAuth(false)
+
         callback()
     }
     let value = { user, isAuth, signIn, signOut }

@@ -9,7 +9,7 @@ export const Header = () => {
     const userName = auth.user
     const logout = () => {
         auth.signOut(() => {
-            navigate('/', { replace: true })
+            navigate('/login', { replace: true })
         })
     }
 
