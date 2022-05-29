@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, RouteProps } from 'react-router-dom'
+import { Link, RouteProps, useLocation, useNavigate } from 'react-router-dom'
 
 import {
     Container,
@@ -12,6 +12,10 @@ import {
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { TextInputError } from '../components/TextInputError'
+
+import { useAuth } from '../lib/AuthContextProvider'
+
+// 認証処理用
 
 type SignInResponse = {
     Success: {
@@ -31,9 +35,19 @@ const UserSchema = z.object({
 
 type User = z.infer<typeof UserSchema>
 
+// Loginコンポーネント
+
 export const Login: React.FC<RouteProps> = () => {
     const [errorStatus, setErrorStatus] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+
+    // リダイレクト処理用
+
+    const navigate = useNavigate()
+    const location = useLocation()
+    const auth = useAuth()
+
+    const from = location.state?.from?.pathname || '/'
 
     const form = useForm({
         schema: zodResolver(UserSchema),
@@ -62,7 +76,10 @@ export const Login: React.FC<RouteProps> = () => {
                     return
                 }
                 response.json().then((data: SignInResponse['Success']) => {
-                    sessionStorage.setItem('token', data.token)
+                    sessionStorage.setItem('auth.token', data.token)
+                    auth.signIn(() => {
+                        navigate(from, { replace: true })
+                    })
                 })
             })
             .catch(() => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, RouteProps } from 'react-router-dom'
+import { Link, RouteProps, useLocation, useNavigate } from 'react-router-dom'
 
 import {
     Container,
@@ -8,12 +8,13 @@ import {
     Button,
     PasswordInput,
     Group,
-    Alert,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 
 import { TextInputError } from '../components/TextInputError'
+
+import { useAuth } from '../lib/AuthContextProvider'
 
 type UsersResponse = {
     Success: {
@@ -55,6 +56,12 @@ export const SignUp: React.FC<RouteProps> = () => {
     const [errorStatus, setErrorStatus] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
+    const navigate = useNavigate()
+    const location = useLocation()
+    const auth = useAuth()
+
+    const from = location.state?.from?.pathname || '/'
+
     const form = useForm({
         schema: zodResolver(UserSchema),
         initialValues: {
@@ -90,7 +97,10 @@ export const SignUp: React.FC<RouteProps> = () => {
                     return
                 }
                 response.json().then((data: UsersResponse['Success']) => {
-                    sessionStorage.setItem('token', data.token)
+                    sessionStorage.setItem('auth.token', data.token)
+                    auth.signIn(() => {
+                        navigate(from, { replace: true })
+                    })
                 })
             })
             .catch(() => {
