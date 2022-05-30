@@ -6,8 +6,9 @@ import { MantineProvider, MantineThemeOverride } from '@mantine/core'
 
 const myTheme: MantineThemeOverride = {
     colorScheme: 'light',
-    primaryColor: 'orange',
-    defaultRadius: 0,
+    primaryColor: 'cyan',
+    black: '#212529',
+    fontFamily: 'Open Sans',
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

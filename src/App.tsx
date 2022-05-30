@@ -10,6 +10,7 @@ import { SignUp } from './pages/SignUp'
 import { Books } from './pages/Books'
 import { Home } from './pages/Home'
 import { Header } from './components/Header'
+import { Footer } from './components/Footer'
 
 import { AuthProvider, useAuth } from './lib/AuthContextProvider'
 
@@ -52,6 +53,7 @@ function App() {
                         }
                     />
                 </Routes>
+                <Footer />
             </Router>
         </AuthProvider>
     )

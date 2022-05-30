@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button, Container, Grid, Group, Title, Anchor } from '@mantine/core'
 import { useAuth } from '../lib/AuthContextProvider'
 
-export const Header = () => {
+export const Footer = () => {
     const auth = useAuth()
     const navigate = useNavigate()
     const logout = () => {
@@ -13,9 +13,9 @@ export const Header = () => {
     }
     return (
         <Container
-            py={30}
-            mb={50}
             size="100"
+            mt={50}
+            py={100}
             sx={(theme) => ({
                 backgroundColor: theme.colors.gray[1],
             })}
