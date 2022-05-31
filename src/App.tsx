@@ -9,6 +9,7 @@ import { Login } from './pages/Login'
 import { SignUp } from './pages/SignUp'
 import { Books } from './pages/Books'
 import { Home } from './pages/Home'
+import { Profile } from './pages/Profile'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 
@@ -52,6 +53,14 @@ function App() {
                             </RequireAuth>
                         }
                     />
+                    <Route
+                        path="/profile"
+                        element={
+                            <RequireAuth>
+                                <Profile />
+                            </RequireAuth>
+                        }
+                    />
                 </Routes>
                 <Footer />
             </Router>
@@ -65,19 +74,24 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     let auth = useAuth()
     let location = useLocation()
 
-    if (!auth.isAuth) {
-        return <Navigate to="/login" state={{ from: location }} replace />
+    if (!auth.isLoading) {
+        if (!auth.isAuth) {
+            return <Navigate to="/login" state={{ from: location }} replace />
+        }
+        return children
     }
-    return children
+    return <>ロード中</>
 }
 
 function RequireNoAuth({ children }: { children: JSX.Element }) {
     let auth = useAuth()
-
-    if (!auth.isAuth) {
-        return children
+    if (!auth.isLoading) {
+        if (!auth.isAuth) {
+            return children
+        }
+        return <Navigate to="/protected" replace />
     }
-    return <Navigate to="/protected" replace />
+    return <>ロード中</>
 }
 
 export default App

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface AuthContextType {
     name: string
-    //setUserName: (name: string) => void
+    updateName: (name: string) => void
+    getName: (callback: VoidFunction) => string
+    isLoading: boolean
     isAuth: boolean
     signIn: (callback: VoidFunction) => void
     signOut: (callback: VoidFunction) => void
@@ -26,25 +28,42 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    let [name, setName] = React.useState<string>('')
-    let [isAuth, setIsAuth] = React.useState<boolean>(false)
+    const [name, setName] = useState<string | undefined>()
+    const [isAuth, setIsAuth] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        if (sessionStorage.getItem('auth.token') !== null) {
+            signIn(() => {})
+        }
+        setIsLoading(false)
+    }, [''])
 
     const getName = () => {
+        if (name) return name
+
         const token = sessionStorage.getItem('auth.token')
-        fetch('https://api-for-missions-and-railways.herokuapp.com/users', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token,
-            },
-        })
+        const promise = fetch(
+            'https://api-for-missions-and-railways.herokuapp.com/users',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+            }
+        )
             .then((response) => response.json())
             .then((data: SignInResponse['Success']) => setName(data.name))
+        throw promise
+    }
+
+    const updateName = (name: string) => {
+        setName(name)
     }
 
     const signIn = (callback: VoidFunction) => {
         setIsAuth(true)
-        getName()
         callback()
     }
 
@@ -55,6 +74,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         callback()
     }
-    let value = { name, isAuth, signIn, signOut }
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+
+    let value = {
+        name,
+        updateName,
+        getName,
+        isLoading,
+        isAuth,
+        signIn,
+        signOut,
+    }
+    return (
+        <AuthContext.Provider value={value}>
+            {!isLoading && children}
+        </AuthContext.Provider>
+    )
 }

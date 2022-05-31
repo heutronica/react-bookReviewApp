@@ -30,8 +30,9 @@ export const Header = () => {
                     {auth.isAuth ? (
                         <Grid.Col span={10}>
                             <Group position="right">
-                                <div className="wao" key={auth.name}>
-                                    こんにちは、{auth.name}さん
+                                <div>
+                                    こんにちは、
+                                    <Link to="/profile">{auth.name}さん</Link>
                                 </div>
                                 <Button onClick={logout}>ログアウト</Button>
                             </Group>
