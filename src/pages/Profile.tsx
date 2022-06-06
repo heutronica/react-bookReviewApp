@@ -1,9 +1,10 @@
 import React, { Suspense, useState } from 'react'
 import { useAuth } from '../lib/AuthContextProvider'
-import { TextInput, Button, Container, Paper, Group } from '@mantine/core'
+import { TextInput, Container, Paper, Group } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { TextInputError } from '../components/TextInputError'
+import { Button } from '../components/Button'
 
 type UsersResponse = {
     Success: {
@@ -83,9 +84,7 @@ export const Profile = () => {
                             {...form.getInputProps('name')}
                         />
                         <Group mt="md">
-                            <Button fullWidth type="submit">
-                                変更
-                            </Button>
+                            <Button type="submit">変更</Button>
                         </Group>
                     </form>
                 </Suspense>

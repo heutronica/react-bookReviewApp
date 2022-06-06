@@ -1,16 +1,8 @@
-import {
-    Card,
-    Container,
-    Grid,
-    Button,
-    Text,
-    Stack,
-    Group,
-    BackgroundImage,
-} from '@mantine/core'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Button } from '../components/Button'
 import { BookCard } from '../components/BookCard'
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
 
 interface Book {
     detail: string
@@ -55,59 +47,46 @@ export const Books = () => {
             .then((response) => setBooks(response))
     }, [''])
 
-    const bookStyle = books.map(({ id, title, detail, reviewer }) => {
-        return (
-            <Grid.Col lg={6} sm={12} key={id}>
-                <Card withBorder py={30} px={50}>
-                    <Grid>
-                        <Grid.Col md={4} xs={12}>
-                            <BookCard id={id}>{title}</BookCard>
-                        </Grid.Col>
-                        <Grid.Col md={8} xs={12}>
-                            <Group py={20} direction="column">
-                                <Text size="xl" weight={700}>
-                                    {title}
-                                </Text>
-                                <Text lineClamp={2}>{detail}</Text>
-                            </Group>
-                            <Text size="sm" color="#999">
-                                {reviewer}
-                            </Text>
-                        </Grid.Col>
-                    </Grid>
-                </Card>
-            </Grid.Col>
-        )
-    })
-
     return (
-        <Container size="xl">
-            <Stack>
-                <BackgroundImage
-                    src="src/img/top_img.png"
-                    align="center"
-                    py={100}
-                    mb={50}
-                >
-                    <p>本を読んだときの感情を共有しよう</p>
-                    <Text
-                        weight={800}
-                        sx={(theme) => ({
-                            fontSize: '6rem',
-                        })}
-                    >
-                        Favbook
-                    </Text>
-                    <Button<typeof Link>
-                        component={Link}
-                        to="/signup"
-                        size="lg"
-                    >
-                        無料ではじめる
-                    </Button>
-                </BackgroundImage>
-            </Stack>
-            <Grid gutter="xl">{bookStyle}</Grid>
-        </Container>
+        <main css={styles.main}>
+            <div css={styles.heroHeader}>
+                <p>本を読んだときの感情を共有しよう</p>
+                <h1 css={styles.title}>Favbook</h1>
+                <Button link to="/signup" rounded>
+                    無料ではじめる
+                </Button>
+            </div>
+            <div css={styles.bookList}>
+                {books.map((props) => (
+                    <BookCard {...props} />
+                ))}
+            </div>
+        </main>
     )
+}
+
+const breakpoints = Object.values(theme.breakpoints)
+const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
+
+const styles = {
+    main: css({
+        maxWidth: theme.breakpoints.lg,
+        margin: '0 auto',
+    }),
+    heroHeader: css({
+        backgroundImage: `url("src/img/top_img.png")`,
+        backgroundSize: 'cover',
+        padding: '100px 50px',
+        textAlign: 'center',
+    }),
+    title: css({
+        fontSize: '5rem',
+    }),
+    bookList: css({
+        display: 'grid',
+        padding: '0 30px',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '20px',
+        [mq[1]]: { gridTemplateColumns: '1fr' },
+    }),
 }

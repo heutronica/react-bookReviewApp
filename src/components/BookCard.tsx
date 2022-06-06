@@ -1,50 +1,85 @@
-import React from 'react'
-import { Box, MantineThemeColors, useMantineTheme, Text } from '@mantine/core'
+import { theme } from '../style/theme'
+import { css } from '@emotion/react'
+import { BookCover } from '../components/BookCover'
 
-export const BookCard = ({
-    children,
-    id,
-}: {
-    children: React.ReactNode
+type Props = {
+    detail: string
     id: string
+    review: string
+    reviewer: string
+    title: string
+    url: string
+}
+
+export const BookCard: React.FC<Props> = ({
+    id,
+    title,
+    detail,
+    review,
+    reviewer,
 }) => {
-    const theme = useMantineTheme()
-
-    let randomProperty = (obj: MantineThemeColors, place: string) => {
-        let keys = Object.keys(obj)
-
-        let convertDecimal = (num: string) => {
-            if (place === 'front') {
-                return num.slice(0, 1)
-            } else {
-                return num.slice(-1)
-            }
-        }
-
-        const parseNum = parseInt(convertDecimal(id), 16)
-        let convertNum = Math.floor((parseNum / 16) * 10)
-
-        return obj[keys[convertNum]]
-    }
-    let colorPick1 = randomProperty(theme.colors, 'front')
-    let colorPick2 = randomProperty(theme.colors, 'end')
-
     return (
-        <Box
-            sx={(theme) => ({
-                backgroundColor: colorPick2[7],
-                textAlign: 'center',
-                padding: theme.spacing.xl,
-                borderRadius: theme.radius.sm,
-                boxShadow: theme.shadows.md,
-                width: '160px',
-                height: '200px',
-                cursor: 'pointer',
-            })}
-        >
-            <Text color="white" weight="bold">
-                {children}
-            </Text>
-        </Box>
+        <div css={styles.wrapper}>
+            <p css={styles.reviewer}>{reviewer}</p>
+            <h2 css={styles.review}>{review}</h2>
+            <div css={styles.bookDetail}>
+                <BookCover id={id} title={title} />
+                <div css={styles.bookData}>
+                    <p css={styles.title}>{title}</p>
+                    <p css={styles.detail}>{detail}</p>
+                </div>
+            </div>
+        </div>
     )
+}
+
+const breakpoints = Object.values(theme.breakpoints)
+const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
+
+const styles = {
+    wrapper: css({
+        display: 'flex',
+        overflow: 'hidden',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '20px 30px',
+        border: '1px solid',
+        borderRadius: theme.radius.md,
+    }),
+    review: css({
+        display: '-webkit-box',
+        fontSize: '1.2rem',
+        overflow: 'hidden',
+        '-webkitBoxOrient': 'vertical',
+        '-webkitLineClamp': '2',
+        marginBottom: '25px',
+    }),
+    bookDetail: css({
+        display: 'flex',
+        flexDirection: 'row',
+        columnGap: '20px',
+        backgroundColor: theme.defaultColors.gray[1],
+        borderRadius: theme.radius.md,
+        padding: '20px',
+        [mq[1]]: { flexDirection: 'column', alignItems: 'center' },
+    }),
+    bookData: css({
+        width: '100%',
+    }),
+    detail: css({
+        display: '-webkit-box',
+        overflow: 'hidden',
+        '-webkitBoxOrient': 'vertical',
+        '-webkitLineClamp': '3',
+        fontSize: theme.fontSizes.sm,
+        lineHeight: '1.2',
+    }),
+    title: css({
+        fontSize: '1rem',
+        fontWeight: '700',
+    }),
+    reviewer: css({
+        fontSize: theme.fontSizes.sm,
+        margin: '0',
+    }),
 }

@@ -1,5 +1,10 @@
-import { Card, Container, Grid, Paper } from '@mantine/core'
+import { Button } from '../components/Button'
+import { BookCard } from '../components/BookCard'
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
+
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 interface Book {
     detail: string
@@ -13,9 +18,8 @@ interface Book {
 export const Home = () => {
     const [books, setBooks] = useState<Book[]>([])
 
-    const token = sessionStorage.getItem('token')
-
     useEffect(() => {
+        const token = sessionStorage.getItem('auth.token')
         fetch('https://api-for-missions-and-railways.herokuapp.com/books', {
             method: 'GET',
             headers: {
@@ -27,23 +31,31 @@ export const Home = () => {
             .then((response) => setBooks(response))
     }, [''])
 
-    const bookStyle = books.map(({ id, title, detail }) => {
-        return (
-            <Grid.Col span={6}>
-                <Paper withBorder key={id}>
-                    <div>
-                        <h3 className="bookTitle">{title}</h3>
-                        <p className="bookDetail">{detail}</p>
-                    </div>
-                </Paper>
-            </Grid.Col>
-        )
-    })
-
     return (
-        <Container size="lg">
-            <h2>ログインができました！</h2>
-            <Grid gutter="xl">{bookStyle}</Grid>
-        </Container>
+        <main css={styles.main}>
+            <div css={styles.bookList}>
+                {books.map((props) => (
+                    <BookCard {...props} key={props.id} />
+                ))}
+            </div>
+        </main>
     )
+}
+
+const breakpoints = Object.values(theme.breakpoints)
+const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
+
+const styles = {
+    main: css({
+        maxWidth: theme.breakpoints.lg,
+        margin: '0 auto',
+        padding: '50px 0',
+    }),
+    bookList: css({
+        display: 'grid',
+        padding: '0 30px',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '20px',
+        [mq[1]]: { gridTemplateColumns: '1fr' },
+    }),
 }

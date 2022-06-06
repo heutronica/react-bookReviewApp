@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
-
-import { Button, Container, Grid, Group, Title, Anchor } from '@mantine/core'
 import { useAuth } from '../lib/AuthContextProvider'
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
+import { Button } from './Button'
 
 export const Footer = () => {
     const auth = useAuth()
@@ -12,51 +13,59 @@ export const Footer = () => {
         })
     }
     return (
-        <Container
-            size="100"
-            mt={50}
-            py={100}
-            sx={(theme) => ({
-                backgroundColor: theme.colors.gray[1],
-            })}
-        >
-            <Container size="xl">
-                <Grid justify="space-between">
-                    <Grid.Col span={2}>
-                        <Anchor component={Link} to="/">
-                            <Title order={2}>Favbook</Title>
-                        </Anchor>
-                    </Grid.Col>
+        <header css={styles.header}>
+            <div css={styles.wrapper}>
+                <div css={styles.group}>
+                    <Link to="/" css={styles.title}>
+                        Favbook
+                    </Link>
+                </div>
+                <div css={styles.nav}>
                     {auth.isAuth ? (
-                        <Grid.Col span={10}>
-                            <Group position="right">
-                                <div className="wao" key={auth.name}>
-                                    こんにちは、{auth.name}さん
-                                </div>
-                                <Button onClick={logout}>ログアウト</Button>
-                            </Group>
-                        </Grid.Col>
+                        <>
+                            <Button onClick={logout}>ログアウト</Button>
+                        </>
                     ) : (
-                        <Grid.Col span={10}>
-                            <Group position="right">
-                                <Button<typeof Link>
-                                    component={Link}
-                                    to="/signup"
-                                >
-                                    ユーザー登録
-                                </Button>
-                                <Button<typeof Link>
-                                    component={Link}
-                                    to="/login"
-                                    variant="outline"
-                                >
-                                    ログイン
-                                </Button>
-                            </Group>
-                        </Grid.Col>
+                        <>
+                            <Button link to="/login" size="sm" outline rounded>
+                                ログイン
+                            </Button>
+                            <Button link to="/signup" size="sm" rounded>
+                                ユーザー登録
+                            </Button>
+                        </>
                     )}
-                </Grid>
-            </Container>
-        </Container>
+                </div>
+            </div>
+        </header>
     )
+}
+
+const styles = {
+    header: css({
+        position: 'relative',
+        backgroundColor: theme.defaultColors.gray[5],
+        padding: '20px 30px',
+    }),
+    wrapper: css({
+        display: 'flex',
+        justifyContent: 'space-between',
+        maxWidth: theme.breakpoints.lg,
+        margin: '0 auto',
+    }),
+    group: css({}),
+    nav: css({
+        display: 'flex',
+        columnGap: '1rem',
+    }),
+    title: css({
+        textDecoration: 'none',
+        fontSize: '1.5rem',
+        fontWeight: '700',
+        color: theme.white,
+    }),
+    name: css({
+        color: theme.white,
+        cursor: 'pointer',
+    }),
 }
