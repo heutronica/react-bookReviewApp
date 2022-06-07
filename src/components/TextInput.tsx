@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from 'react-hook-form'
 import { theme } from '../style/theme'
 
 type Props = {
-    label: string
+    label?: string
     name: string
     errorMessage: string | undefined
     register: UseFormRegisterReturn
@@ -11,22 +11,26 @@ type Props = {
     placeholder?: string
 }
 
-export const TextInput: React.FC<Props> = (props) => {
+export const TextInput: React.FC<Props> = ({
+    label,
+    name,
+    errorMessage,
+    register,
+    defaultValue,
+    placeholder,
+}) => {
     return (
         <div>
-            <label css={styles.label}>{props.label}</label>
+            <label css={styles.label}>{label}</label>
             <div>
                 <input
                     type="text"
-                    css={[
-                        styles.input,
-                        props.errorMessage && styles.inputError,
-                    ]}
-                    placeholder={props.placeholder}
-                    {...props.register}
+                    css={[styles.input, errorMessage && styles.inputError]}
+                    placeholder={placeholder}
+                    {...register}
                 />
-                {props.errorMessage && (
-                    <span css={styles.errorMessage}>{props.errorMessage}</span>
+                {errorMessage && (
+                    <span css={styles.errorMessage}>{errorMessage}</span>
                 )}
             </div>
         </div>

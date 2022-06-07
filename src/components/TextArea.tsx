@@ -11,21 +11,25 @@ type Props = {
     placeholder?: string
 }
 
-export const TextArea: React.FC<Props> = (props) => {
+export const TextArea: React.FC<Props> = ({
+    label,
+    name,
+    errorMessage,
+    register,
+    defaultValue,
+    placeholder,
+}) => {
     return (
         <div>
-            <label css={styles.label}>{props.label}</label>
+            <label css={styles.label}>{label}</label>
             <div>
                 <textarea
-                    css={[
-                        styles.textBox,
-                        props.errorMessage && styles.inputError,
-                    ]}
-                    placeholder={props.placeholder}
-                    {...props.register}
+                    css={[styles.textBox, errorMessage && styles.inputError]}
+                    placeholder={placeholder}
+                    {...register}
                 />
-                {props.errorMessage && (
-                    <span css={styles.errorMessage}>{props.errorMessage}</span>
+                {errorMessage && (
+                    <span css={styles.errorMessage}>{errorMessage}</span>
                 )}
             </div>
         </div>

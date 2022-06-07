@@ -5,8 +5,6 @@ import { theme } from '../style/theme'
 
 type Props = React.ComponentProps<'button'> & {
     children: React.ReactNode
-    className?: string
-    label?: string
     outline?: boolean
     rounded?: boolean
     size?: 'sm' | 'lg'
@@ -16,38 +14,46 @@ type Props = React.ComponentProps<'button'> & {
     onClick?: () => VoidFunction
 }
 
-export const Button: React.FC<Props> = (props) => {
+export const Button: React.FC<Props> = ({
+    size,
+    outline,
+    link,
+    onClick,
+    children,
+    to,
+    rounded,
+}) => {
     const style = [base]
 
     //sizeのこと
-    if (props.size == 'sm') {
+    if (size == 'sm') {
         style.push(size.sm)
-    } else if (props.size == 'lg') {
+    } else if (size == 'lg') {
         style.push(size.lg)
     } else {
         style.push(size.md)
     }
 
     {
-        props.outline ? style.push(outline) : style.push(filled)
+        outline ? style.push(outline) : style.push(filled)
     }
     {
-        props.rounded ? style.push(rounded) : style.push(normal)
+        rounded ? style.push(rounded) : style.push(normal)
     }
 
     return (
         <>
-            {props.link ? (
+            {link ? (
                 <Link
-                    to={props.to}
+                    to={to}
                     //下、共通化したいな
                     css={style}
                 >
-                    {props.children}
+                    {children}
                 </Link>
             ) : (
-                <button css={style} onClick={props.onClick}>
-                    {props.children}
+                <button css={style} onClick={onClick}>
+                    {children}
                 </button>
             )}
         </>

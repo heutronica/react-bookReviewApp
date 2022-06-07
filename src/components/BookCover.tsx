@@ -8,11 +8,11 @@ type Props = {
     title: string
 }
 
-export const BookCover: React.FC<Props> = (props) => {
+export const BookCover: React.FC<Props> = ({ id, title }) => {
     let randomColorPick = (obj: defaultTheme['defaultColors']) => {
         let keys = Object.keys(obj)
 
-        const parseNum = parseInt(props.id.slice(0, 1), 16)
+        const parseNum = parseInt(id.slice(0, 1), 16)
         let convertNum = Math.floor((parseNum / 16) * 10)
 
         return obj[keys[convertNum]]
@@ -23,8 +23,8 @@ export const BookCover: React.FC<Props> = (props) => {
     })
 
     return (
-        <Link to={'/detail/' + props.id} css={styles.title}>
-            <div css={[styles.wrapper, backgroundColor]}>{props.title}</div>
+        <Link to={'/detail/' + id} css={styles.title}>
+            <div css={[styles.wrapper, backgroundColor]}>{title}</div>
         </Link>
     )
 }
