@@ -1,11 +1,51 @@
-import { Tuple } from '@mantine/core'
 import { DEFAULT_COLORS } from './default_colors'
+
+//const teal =
 
 export const theme: defaultTheme = {
     defaultColors: DEFAULT_COLORS,
     colors: {
-        primary: ['#5dd5de', '#12A3AC', '#00747d'],
-        secondary: ['#4e6c8f', '#1f4161', '#001b37'],
+        primary: '#12A3AC',
+        primaryContrast: '#ffffff',
+        primaryShade: '#108f97',
+        primaryTint: '#2aacb4',
+
+        secondary: '#1F4161',
+        secondaryContrast: '#ffffff',
+        secondaryShade: '#1b3955',
+        secondaryTint: '#355471',
+
+        tertiary: '#F29138',
+        tertiaryContrast: '#000000',
+        tertiaryShade: '#d58031',
+        tertiaryTint: '#f39c4c',
+
+        success: '#3e6fee',
+        successContrast: '#ffffff',
+        successShade: '#3762d1',
+        successTint: '#517df0',
+        successLight: '#e0e8fd',
+
+        warning: '#ffc409',
+        warningContrast: '#000000',
+        warningShade: '#e0ac08',
+        warningTint: '#ffca22',
+
+        danger: '#eb445a',
+        dangerContrast: '#ffffff',
+        dangerShade: '#cf3c4f',
+        dangerTint: '#ed576b',
+        dangerLight: '#ffedef',
+
+        medium: '#92949c',
+        mediumContrast: '#000000',
+        mediumShade: '#808289',
+        mediumTint: '#9d9fa6',
+
+        light: '#f4f5f8',
+        lightContrast: '#000000',
+        lightShade: '#d7d8da',
+        lightTint: '#f5f6f9',
     },
     black: '#393533',
     white: '#ffffff',
@@ -31,8 +71,9 @@ export const theme: defaultTheme = {
 }
 
 export interface defaultTheme {
-    defaultColors: { [K in string]: Array<string> }
-    colors: Record<string, Tuple<string, 3>>
+    //defaultColors: { [K in string]: Array<string> }
+    //colors: Record<string, Tuple<string, 3>>
+    colors: { [K in string]: string }
     black: string
     white: string
     breakpoints: Record<'sm' | 'md' | 'lg', string>
