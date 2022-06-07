@@ -17,7 +17,7 @@ interface Book {
 }
 
 export const Detail = () => {
-    const [books, setBooks] = useState<Book>({})
+    const [books, setBooks] = useState<Book>()
 
     const getId = useParams()
     const bookAPIURL =
@@ -40,7 +40,7 @@ export const Detail = () => {
     return (
         <div>
             {/*<BookCover id={books.id} title={books.title} />*/}
-            {books.isMine && <Button>編集画面</Button>}
+            {books?.isMine && <Button>編集画面</Button>}
         </div>
     )
 }
