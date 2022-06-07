@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from '../components/Button'
+import { LinkButton } from '../components/LinkButton'
 import { BookCard } from '../components/BookCard'
 import { css } from '@emotion/react'
 import { theme } from '../style/theme'
@@ -35,9 +35,9 @@ export const Books = () => {
             <div css={styles.heroHeader}>
                 <p>本を読んだときの感情を共有しよう</p>
                 <h1 css={styles.title}>Favbook</h1>
-                <Button link to="/signup" rounded>
+                <LinkButton to="/signup" rounded>
                     無料ではじめる
-                </Button>
+                </LinkButton>
             </div>
             <div css={styles.bookList}>
                 {books.map((props) => (
