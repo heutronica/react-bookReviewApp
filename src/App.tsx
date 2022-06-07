@@ -10,6 +10,7 @@ import { SignUp } from './pages/SignUp'
 import { Books } from './pages/Books'
 import { Home } from './pages/Home'
 import { Profile } from './pages/Profile'
+import { New } from './pages/New'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { Detail } from './pages/{id}'
@@ -60,6 +61,14 @@ function App() {
                         element={
                             <RequireAuth>
                                 <Profile />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/new"
+                        element={
+                            <RequireAuth>
+                                <New />
                             </RequireAuth>
                         }
                     />
