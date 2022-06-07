@@ -69,14 +69,14 @@ const base = css({
 
 const filled = css({
     borderWidth: '0',
-    backgroundColor: theme.colors.secondary[1],
+    backgroundColor: theme.colors.secondary,
     color: theme.white,
 
     '&:hover,:focus': {
-        backgroundColor: theme.colors.secondary[2],
+        backgroundColor: theme.colors.secondaryTint,
     },
     '&:active': {
-        backgroundColor: theme.colors.secondary[1],
+        backgroundColor: theme.colors.secondaryShade,
     },
 })
 const outline = css({
@@ -84,14 +84,14 @@ const outline = css({
     borderStyle: 'solid',
     borderColor: theme.white,
     boxSizing: 'border-box',
-    backgroundColor: theme.colors.primary[1],
+    backgroundColor: theme.colors.primary,
     color: theme.white,
 
     '&:hover,:focus': {
-        backgroundColor: theme.colors.primary[2],
+        backgroundColor: theme.colors.primaryTint,
     },
     '&:active': {
-        backgroundColor: theme.colors.primary[1],
+        backgroundColor: theme.colors.primaryShade,
     },
 })
 const rounded = css({

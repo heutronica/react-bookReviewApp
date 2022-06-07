@@ -67,7 +67,7 @@ export const Header = () => {
                                 </span>
                             </div>
                             <Suspense fallback={<p>loading</p>}></Suspense>
-                            <Button rounded size="sm">
+                            <Button link to="/new" rounded size="sm">
                                 投稿する
                             </Button>
                         </>
@@ -90,7 +90,7 @@ export const Header = () => {
 const styles = {
     header: css({
         position: 'relative',
-        backgroundColor: theme.colors.primary[1],
+        backgroundColor: theme.colors.primary,
         padding: '20px 30px',
     }),
     wrapper: css({
@@ -163,7 +163,7 @@ const menu = {
         border: 'none',
         width: '100%',
         ':is(:focus-visible, :hover)': {
-            backgroundColor: theme.colors.secondary[1],
+            backgroundColor: theme.colors.secondary,
             color: theme.white,
         },
     }),
