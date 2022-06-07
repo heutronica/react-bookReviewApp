@@ -13,23 +13,6 @@ interface Book {
     url: string
 }
 
-type SignInResponse = {
-    Success: {
-        id: 'string'
-        title: 'string'
-        url: 'string'
-        detail: 'string'
-        review: 'string'
-        reviewer: 'string'
-        isMine: true
-    }
-    Error: {
-        ErrorCode: number
-        ErrorMessageJP: string
-        ErrorMessageEN: string
-    }
-}
-
 export const Books = () => {
     const [books, setBooks] = useState<Book[]>([])
 

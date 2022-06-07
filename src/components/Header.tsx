@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContextProvider'
 import { css } from '@emotion/react'
 import { theme } from '../style/theme'
-import { Button } from './Button'
+import { LinkButton } from './LinkButton'
 import { useState } from 'react'
 
 export const Header = () => {
@@ -67,18 +67,18 @@ export const Header = () => {
                                 </span>
                             </div>
                             <Suspense fallback={<p>loading</p>}></Suspense>
-                            <Button link to="/new" rounded size="sm">
+                            <LinkButton to="/new" rounded size="sm">
                                 投稿する
-                            </Button>
+                            </LinkButton>
                         </>
                     ) : (
                         <>
-                            <Button link to="/login" size="sm" outline rounded>
+                            <LinkButton to="/login" size="sm" outline rounded>
                                 ログイン
-                            </Button>
-                            <Button link to="/signup" size="sm" rounded>
+                            </LinkButton>
+                            <LinkButton to="/signup" size="sm" rounded>
                                 ユーザー登録
-                            </Button>
+                            </LinkButton>
                         </>
                     )}
                 </div>

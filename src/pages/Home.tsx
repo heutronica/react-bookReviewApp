@@ -1,10 +1,8 @@
-import { Button } from '../components/Button'
 import { BookCard } from '../components/BookCard'
 import { css } from '@emotion/react'
 import { theme } from '../style/theme'
 
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 interface Book {
     detail: string

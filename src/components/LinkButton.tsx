@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { buttonStyle } from '../style/button'
 
 type Props = React.ComponentProps<'button'> & {
@@ -6,20 +7,22 @@ type Props = React.ComponentProps<'button'> & {
     outline?: boolean
     rounded?: boolean
     size?: 'sm' | 'lg'
-    onClick?: () => VoidFunction
+    to: string
 }
 
-export const Button: React.FC<Props> = ({
+export const LinkButton: React.FC<Props> = ({
     size,
     outline,
-    onClick,
     children,
+    to,
     rounded,
 }) => {
     const style = buttonStyle(size, outline, rounded)
     return (
-        <button css={style} onClick={onClick}>
-            {children}
-        </button>
+        <>
+            <Link to={to} css={style}>
+                {children}
+            </Link>
+        </>
     )
 }

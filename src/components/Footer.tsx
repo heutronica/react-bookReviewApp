@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContextProvider'
 import { css } from '@emotion/react'
 import { theme } from '../style/theme'
 import { Button } from './Button'
+import { LinkButton } from './LinkButton'
 
 export const Footer = () => {
     const auth = useAuth()
@@ -27,12 +28,12 @@ export const Footer = () => {
                         </>
                     ) : (
                         <>
-                            <Button link to="/login" size="sm" outline rounded>
+                            <LinkButton to="/login" size="sm" outline rounded>
                                 ログイン
-                            </Button>
-                            <Button link to="/signup" size="sm" rounded>
+                            </LinkButton>
+                            <LinkButton to="/signup" size="sm" rounded>
                                 ユーザー登録
-                            </Button>
+                            </LinkButton>
                         </>
                     )}
                 </div>
