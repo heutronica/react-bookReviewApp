@@ -12,10 +12,9 @@ import { theme } from '../style/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from '../lib/formSchema/loginSchema'
+import { getLocationPathname } from '../lib/getLocationPathname'
 
-// Loginコンポーネント
-
-export const Login: React.FC<RouteProps> = () => {
+export const Login = () => {
     const [statusMessage, setStatusMessage] = useState<APIStatus>({
         status: '',
         message: '',
@@ -27,7 +26,7 @@ export const Login: React.FC<RouteProps> = () => {
     const location = useLocation()
     const auth = useAuth()
 
-    const from = location.state?.from?.pathname || '/'
+    const from = getLocationPathname(location)
 
     const {
         register,

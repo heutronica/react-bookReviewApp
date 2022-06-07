@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { signupSchema } from '../lib/formSchema/signupSchema'
+import { getLocationPathname } from '../lib/getLocationPathname'
 
 export const SignUp = () => {
     const [statusMessage, setStatusMessage] = useState<APIStatus>({
@@ -24,7 +25,7 @@ export const SignUp = () => {
     const location = useLocation()
     const auth = useAuth()
 
-    const from = location.state?.from?.pathname || '/'
+    const from = getLocationPathname(location)
 
     const {
         register,
