@@ -55,7 +55,14 @@ function App() {
                             </RequireAuth>
                         }
                     />
-                    <Route path="/detail/:booksId" element={<Detail />} />
+                    <Route
+                        path="/detail/:booksId"
+                        element={
+                            <RequireAuth>
+                                <Detail />
+                            </RequireAuth>
+                        }
+                    />
                     <Route
                         path="/profile"
                         element={
