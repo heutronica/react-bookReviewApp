@@ -23,23 +23,24 @@ export const Button: React.FC<Props> = ({
     to,
     rounded,
 }) => {
-    const style = [base]
+    const style = [styles.base]
 
-    //sizeのこと
     if (size == 'sm') {
-        style.push(size.sm)
+        style.push(styles.size.sm)
     } else if (size == 'lg') {
-        style.push(size.lg)
+        style.push(styles.size.lg)
     } else {
-        style.push(size.md)
+        style.push(styles.size.md)
     }
 
     {
-        outline ? style.push(outline) : style.push(filled)
+        outline ? style.push(styles.outline) : style.push(styles.filled)
     }
     {
-        rounded ? style.push(rounded) : style.push(normal)
+        rounded ? style.push(styles.rounded) : style.push(styles.normal)
     }
+
+    console.log(style)
 
     return (
         <>
@@ -60,68 +61,69 @@ export const Button: React.FC<Props> = ({
     )
 }
 
-const base = css({
-    display: 'inline-block',
-    height: 'fit-content',
-    textAlign: 'center',
-    cursor: 'pointer',
-    boxShadow: theme.shadow.sm,
-    textDecoration: 'none',
+const styles = {
+    base: css({
+        display: 'inline-block',
+        height: 'fit-content',
+        textAlign: 'center',
+        cursor: 'pointer',
+        boxShadow: theme.shadow.sm,
+        textDecoration: 'none',
 
-    '&:hover,:focus': {
-        boxShadow: 'none',
-    },
-})
-
-const filled = css({
-    borderWidth: '0',
-    backgroundColor: theme.colors.secondary,
-    color: theme.white,
-
-    '&:hover,:focus': {
-        backgroundColor: theme.colors.secondaryTint,
-    },
-    '&:active': {
-        backgroundColor: theme.colors.secondaryShade,
-    },
-})
-const outline = css({
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: theme.white,
-    boxSizing: 'border-box',
-    backgroundColor: theme.colors.primary,
-    color: theme.white,
-
-    '&:hover,:focus': {
-        backgroundColor: theme.colors.primaryTint,
-    },
-    '&:active': {
-        backgroundColor: theme.colors.primaryShade,
-    },
-})
-const rounded = css({
-    borderRadius: '999px',
-})
-const normal = css({
-    borderRadius: theme.radius.md,
-})
-
-const size = {
-    sm: css({
-        padding: '8px 20px',
-        fontSize: theme.fontSizes.sm,
-        fontWeight: '600',
+        '&:hover,:focus': {
+            boxShadow: 'none',
+        },
     }),
-    md: css({
-        padding: '8px 40px',
-        fontSize: theme.fontSizes.md,
-        fontWeight: '600',
+    filled: css({
+        borderWidth: '0',
+        backgroundColor: theme.colors.secondary,
+        color: theme.white,
+
+        '&:hover,:focus': {
+            backgroundColor: theme.colors.secondaryTint,
+        },
+        '&:active': {
+            backgroundColor: theme.colors.secondaryShade,
+        },
     }),
-    lg: css({
-        width: '100%',
-        padding: '8px 40px',
-        fontSize: theme.fontSizes.md,
-        fontWeight: '600',
+    outline: css({
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: theme.white,
+        boxSizing: 'border-box',
+        backgroundColor: theme.colors.primary,
+        color: theme.white,
+
+        '&:hover,:focus': {
+            backgroundColor: theme.colors.primaryTint,
+        },
+        '&:active': {
+            backgroundColor: theme.colors.primaryShade,
+        },
     }),
+    rounded: css({
+        borderRadius: '999px',
+    }),
+    normal: css({
+        borderRadius: theme.radius.md,
+    }),
+
+    size: {
+        sm: css({
+            padding: '8px 20px',
+            fontSize: theme.fontSizes.sm,
+            fontWeight: '600',
+        }),
+        md: css({
+            padding: '8px 40px',
+            fontSize: theme.fontSizes.md,
+            fontWeight: '600',
+        }),
+        lg: css({
+            width: '100%',
+            padding: '8px 40px',
+            fontSize: theme.fontSizes.md,
+            fontWeight: '600',
+        }),
+    },
 }
