@@ -1,7 +1,5 @@
 import { DEFAULT_COLORS } from './default_colors'
 
-//const teal =
-
 export const theme: defaultTheme = {
     defaultColors: DEFAULT_COLORS,
     colors: {
@@ -68,16 +66,4 @@ export const theme: defaultTheme = {
         md: '1rem',
         lg: '1.2rem',
     },
-}
-
-export interface defaultTheme {
-    //defaultColors: { [K in string]: Array<string> }
-    //colors: Record<string, Tuple<string, 3>>
-    colors: { [K in string]: string }
-    black: string
-    white: string
-    breakpoints: Record<'sm' | 'md' | 'lg', string>
-    radius: Record<'sm' | 'md' | 'lg', string>
-    shadow: Record<'sm' | 'md', string>
-    fontSizes: Record<'sm' | 'md' | 'lg', string>
 }

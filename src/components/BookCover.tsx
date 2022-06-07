@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const BookCover: React.FC<Props> = (props) => {
-    let randomColorPick = (obj: typeof theme.defaultColors) => {
+    let randomColorPick = (obj: defaultTheme['defaultColors']) => {
         let keys = Object.keys(obj)
 
         const parseNum = parseInt(props.id.slice(0, 1), 16)
@@ -32,14 +32,15 @@ export const BookCover: React.FC<Props> = (props) => {
 const styles = {
     wrapper: css({
         display: 'flex',
-        alignItems: 'center',
         flexShrink: '0',
         borderRadius: theme.radius.md,
         boxShadow: theme.shadow.sm,
         width: 500 / 5 + 'px',
         height: 700 / 5 + 'px',
         cursor: 'pointer',
-        padding: '10px',
+        padding: '15px',
+        overflow: 'hidden',
+        wordBreak: 'break-word',
     }),
     title: css({
         color: theme.white,

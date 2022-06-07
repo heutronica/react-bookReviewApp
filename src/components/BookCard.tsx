@@ -23,11 +23,11 @@ export const BookCard: React.FC<Props> = ({
             <p css={styles.reviewer}>{reviewer}</p>
             <h2 css={styles.review}>{review}</h2>
             <div css={styles.bookDetail}>
-                <BookCover id={id} title={title} />
-                <div css={styles.bookData}>
-                    <p css={styles.title}>{title}</p>
-                    <p css={styles.detail}>{detail}</p>
+                <div css={styles.bookCover}>
+                    <BookCover id={id} title={title} />
                 </div>
+                <p css={styles.title}>{title}</p>
+                <p css={styles.detail}>{detail}</p>
             </div>
         </div>
     )
@@ -45,6 +45,7 @@ const styles = {
         padding: '20px 30px',
         border: '1px solid',
         borderRadius: theme.radius.md,
+        borderColor: theme.colors.lightShade,
     }),
     review: css({
         display: '-webkit-box',
@@ -55,28 +56,41 @@ const styles = {
         marginBottom: '25px',
     }),
     bookDetail: css({
-        display: 'flex',
-        flexDirection: 'row',
-        columnGap: '20px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(fit-content, 1fr)',
+        gridTemplateRows: 'repeat(fit-content, 1fr)',
+        gridColumnGap: '20px',
+        gridRowGap: '10px',
         backgroundColor: theme.defaultColors.gray[1],
         borderRadius: theme.radius.md,
         padding: '20px',
-        [mq[1]]: { flexDirection: 'column', alignItems: 'center' },
+        //[mq[1]]: { flexDirection: 'column', alignItems: 'center' },
     }),
-    bookData: css({
-        width: '100%',
-    }),
-    detail: css({
-        display: '-webkit-box',
-        overflow: 'hidden',
-        '-webkitBoxOrient': 'vertical',
-        '-webkitLineClamp': '3',
-        fontSize: theme.fontSizes.sm,
-        lineHeight: '1.2',
+    bookCover: css({
+        gridArea: ' 1 / 1 / 3 / 2',
     }),
     title: css({
         fontSize: '1rem',
+        width: '100%',
+        height: 'fit-content',
         fontWeight: '700',
+        margin: '0',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        '-webkitBoxOrient': 'vertical',
+        '-webkitLineClamp': '2',
+        gridArea: '1 / 2 / 2 / 3',
+    }),
+    detail: css({
+        display: '-webkit-box',
+        height: 'fit-content',
+        overflow: 'hidden',
+        '-webkitBoxOrient': 'vertical',
+        '-webkitLineClamp': '4',
+        margin: '0',
+        fontSize: theme.fontSizes.sm,
+        lineHeight: '1.2',
+        gridArea: '2 / 2 / 3 / 3',
     }),
     reviewer: css({
         fontSize: theme.fontSizes.sm,
