@@ -1,60 +1,24 @@
-import React, { useState } from 'react'
-import { Link, RouteProps, useLocation, useNavigate } from 'react-router-dom'
-
-import {
-    Container,
-    Paper,
-    TextInput,
-    Button,
-    PasswordInput,
-    Group,
-} from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
-import { z } from 'zod'
-
-import { TextInputError } from '../components/TextInputError'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../lib/AuthContextProvider'
+import { Button } from '../components/Button'
+import { TextInput } from '../components/TextInput'
+import { Title } from '../components/Title'
 
-type UsersResponse = {
-    Success: {
-        token: string
-    }
-    Error: {
-        ErrorCode: number
-        ErrorMessageJP: string
-        ErrorMessageEN: string
-    }
-}
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
 
-const UserSchema = z
-    .object({
-        name: z
-            .string()
-            .min(1, { message: '名前が入力されていません' })
-            .max(20, { message: '名前は20文字以下にしてください' }),
-        email: z.string().email({ message: '無効なメールアドレスです' }),
-        password: z
-            .string()
-            .min(8, { message: 'パスワードは最低でも8文字以上にしてください' })
-            .regex(/[A-Za-z]+[0-9]/, {
-                message:
-                    '英字・数字それぞれ最低1文字ずつを含むものにしてください',
-            }),
-        passwordConfirm: z
-            .string()
-            .min(1, { message: '確認用パスワードを入力してください' }),
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+import { signupSchema } from '../lib/formSchema/signupSchema'
+
+export const SignUp = () => {
+    const [statusMessage, setStatusMessage] = useState<APIStatus>({
+        status: '',
+        message: '',
     })
-    .refine((data) => data.password === data.passwordConfirm, {
-        message: 'パスワードが一致しません',
-        path: ['passwordConfirm'],
-    })
-
-type UserSchema = z.infer<typeof UserSchema>
-
-export const SignUp: React.FC<RouteProps> = () => {
-    const [errorStatus, setErrorStatus] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -62,19 +26,15 @@ export const SignUp: React.FC<RouteProps> = () => {
 
     const from = location.state?.from?.pathname || '/'
 
-    const form = useForm({
-        schema: zodResolver(UserSchema),
-        initialValues: {
-            name: '',
-            email: '',
-            password: '',
-            passwordConfirm: '',
-        },
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<signupSchema>({
+        resolver: zodResolver(signupSchema),
     })
 
-    const requestPOSTUser = (values: UserSchema) => {
-        setErrorStatus(false)
-
+    const onSubmit = handleSubmit((values: signupSchema) => {
         const userData = {
             name: values.name,
             email: values.email,
@@ -90,13 +50,15 @@ export const SignUp: React.FC<RouteProps> = () => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    response.json().then((data: UsersResponse['Error']) => {
-                        setErrorMessage(data.ErrorMessageJP)
-                        setErrorStatus(true)
+                    response.json().then((data: BooksAPI.Error) => {
+                        setStatusMessage({
+                            status: 'error',
+                            message: data.ErrorMessageJP,
+                        })
                     })
                     return
                 }
-                response.json().then((data: UsersResponse['Success']) => {
+                response.json().then((data) => {
                     sessionStorage.setItem('auth.token', data.token)
                     auth.signIn(() => {
                         navigate(from, { replace: true })
@@ -104,58 +66,83 @@ export const SignUp: React.FC<RouteProps> = () => {
                 })
             })
             .catch(() => {
-                setErrorMessage('おや！なんらかのエラーが発生しました')
-                setErrorStatus(true)
+                setStatusMessage({
+                    status: 'error',
+                    message: 'おや！なんらかのエラーが発生しました',
+                })
             })
-    }
+    })
 
     return (
-        <Container size="xs">
-            <Paper shadow="xs" radius="md" px={50} py={30} withBorder>
-                <h2>Sign up</h2>
-                {errorStatus && <TextInputError>{errorMessage}</TextInputError>}
-                <form
-                    onSubmit={form.onSubmit((values) =>
-                        requestPOSTUser(values)
-                    )}
-                >
-                    <TextInput
-                        required
-                        label="name"
-                        placeholder="お名前"
-                        {...form.getInputProps('name')}
-                    />
-                    <TextInput
-                        mt="md"
-                        required
-                        label="email"
-                        placeholder="your@email.com"
-                        {...form.getInputProps('email')}
-                    />
-                    <PasswordInput
-                        mt="md"
-                        required
-                        label="パスワード"
-                        placeholder="パスワード"
-                        {...form.getInputProps('password')}
-                    />
-                    <PasswordInput
-                        mt="sm"
-                        required
-                        placeholder="確認用パスワード"
-                        {...form.getInputProps('passwordConfirm')}
-                    />
-                    <Group mt="md">
-                        <Button fullWidth type="submit">
-                            新規登録
-                        </Button>
-                    </Group>
-                </form>
-            </Paper>
-            <Paper shadow="xs" radius="md" px={50} py={20} mt="lg" withBorder>
+        <main css={styles.main}>
+            <Title size="2">新規ユーザー登録</Title>
+            {statusMessage.status == 'error' && (
+                <p css={[styles.status.wrapper, styles.status.error]}>
+                    {statusMessage.message}
+                </p>
+            )}
+            <form onSubmit={onSubmit} css={styles.form.wrapper}>
+                <TextInput
+                    label="ユーザーネーム"
+                    name="name"
+                    placeholder="はなまる太郎"
+                    errorMessage={errors.name?.message}
+                    register={register('name')}
+                />
+                <TextInput
+                    label="Email"
+                    name="email"
+                    placeholder="your@email.com"
+                    errorMessage={errors.email?.message}
+                    register={register('email')}
+                />
+                <TextInput
+                    label="パスワード"
+                    name="password"
+                    errorMessage={errors.password?.message}
+                    register={register('password')}
+                />
+                <TextInput
+                    name="passwordConfirm"
+                    placeholder="確認用パスワード"
+                    errorMessage={errors.passwordConfirm?.message}
+                    register={register('passwordConfirm')}
+                />
+                <div css={styles.form.button}>
+                    <Button type="submit" size="lg">
+                        登録する
+                    </Button>
+                </div>
+            </form>
+            <div>
                 すでにアカウントを持っている場合は
                 <Link to="../login">ログイン</Link> へ。
-            </Paper>
-        </Container>
+            </div>
+        </main>
     )
+}
+
+const styles = {
+    main: css({
+        maxWidth: theme.breakpoints.md,
+        margin: '0 auto',
+        padding: '50px 0',
+    }),
+    form: {
+        wrapper: css({
+            display: 'grid',
+            rowGap: '20px',
+        }),
+        button: css({}),
+    },
+    status: {
+        wrapper: css({
+            padding: '20px',
+            borderRadius: theme.radius.md,
+        }),
+        error: css({
+            backgroundColor: theme.colors.dangerLight,
+            color: theme.colors.dangerShade,
+        }),
+    },
 }

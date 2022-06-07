@@ -1,45 +1,25 @@
 import React, { useState } from 'react'
 import { Link, RouteProps, useLocation, useNavigate } from 'react-router-dom'
 
-import {
-    Container,
-    Paper,
-    TextInput,
-    Button,
-    PasswordInput,
-    Group,
-} from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
-import { z } from 'zod'
-import { TextInputError } from '../components/TextInputError'
-
 import { useAuth } from '../lib/AuthContextProvider'
+import { Button } from '../components/Button'
+import { TextInput } from '../components/TextInput'
+import { Title } from '../components/Title'
 
-// 認証処理用
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
 
-type SignInResponse = {
-    Success: {
-        token: string
-    }
-    Error: {
-        ErrorCode: number
-        ErrorMessageJP: string
-        ErrorMessageEN: string
-    }
-}
-
-const UserSchema = z.object({
-    email: z.string().email({ message: '無効なメールアドレスです' }),
-    password: z.string().min(1, { message: 'パスワードを入力してください' }),
-})
-
-type User = z.infer<typeof UserSchema>
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { loginSchema } from '../lib/formSchema/loginSchema'
 
 // Loginコンポーネント
 
 export const Login: React.FC<RouteProps> = () => {
-    const [errorStatus, setErrorStatus] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [statusMessage, setStatusMessage] = useState<APIStatus>({
+        status: '',
+        message: '',
+    })
 
     // リダイレクト処理用
 
@@ -49,17 +29,15 @@ export const Login: React.FC<RouteProps> = () => {
 
     const from = location.state?.from?.pathname || '/'
 
-    const form = useForm({
-        schema: zodResolver(UserSchema),
-        initialValues: {
-            email: '',
-            password: '',
-        },
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<loginSchema>({
+        resolver: zodResolver(loginSchema),
     })
 
-    const requestLogin = (values: User) => {
-        setErrorStatus(false)
-
+    const onSubmit = handleSubmit((values: loginSchema) => {
         fetch('https://api-for-missions-and-railways.herokuapp.com/signin', {
             method: 'POST',
             body: JSON.stringify(values),
@@ -69,13 +47,15 @@ export const Login: React.FC<RouteProps> = () => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    response.json().then((data: SignInResponse['Error']) => {
-                        setErrorMessage(data.ErrorMessageJP)
-                        setErrorStatus(true)
+                    response.json().then((data: BooksAPI.Error) => {
+                        setStatusMessage({
+                            status: 'error',
+                            message: data.ErrorMessageJP,
+                        })
                     })
                     return
                 }
-                response.json().then((data: SignInResponse['Success']) => {
+                response.json().then((data) => {
                     sessionStorage.setItem('auth.token', data.token)
                     auth.signIn(() => {
                         navigate(from, { replace: true })
@@ -83,43 +63,70 @@ export const Login: React.FC<RouteProps> = () => {
                 })
             })
             .catch(() => {
-                setErrorMessage('おや！なんらかのエラーが発生しました')
-                setErrorStatus(true)
+                setStatusMessage({
+                    status: 'error',
+                    message: 'おや！なんらかのエラーが発生しました',
+                })
             })
-    }
+    })
 
     return (
-        <Container size="xs">
-            <Paper shadow="xs" radius="md" px={50} py={30} withBorder>
-                <h2>Login</h2>
-                {errorStatus && <TextInputError>{errorMessage}</TextInputError>}
-                <form
-                    onSubmit={form.onSubmit((values) => requestLogin(values))}
-                >
-                    <TextInput
-                        required
-                        label="Email"
-                        placeholder="your@email.com"
-                        {...form.getInputProps('email')}
-                    />
-                    <PasswordInput
-                        mt="md"
-                        required
-                        label="パスワード"
-                        placeholder="Password"
-                        {...form.getInputProps('password')}
-                    />
-                    <Group mt="md">
-                        <Button fullWidth type="submit">
-                            ログイン
-                        </Button>
-                    </Group>
-                </form>
-            </Paper>
-            <Paper shadow="xs" radius="md" px={50} py={20} mt="lg" withBorder>
+        <main css={styles.main}>
+            <Title size="2">ログイン</Title>
+            {statusMessage.status == 'error' && (
+                <p css={[styles.status.wrapper, styles.status.error]}>
+                    {statusMessage.message}
+                </p>
+            )}
+            <form onSubmit={onSubmit} css={styles.form.wrapper}>
+                <TextInput
+                    label="Email"
+                    name="email"
+                    placeholder="your@email.com"
+                    errorMessage={errors.email?.message}
+                    register={register('email')}
+                />
+                <TextInput
+                    label="パスワード"
+                    name="password"
+                    errorMessage={errors.password?.message}
+                    register={register('password')}
+                />
+                <div css={styles.form.button}>
+                    <Button type="submit" size="lg">
+                        ログイン
+                    </Button>
+                </div>
+            </form>
+            <div>
                 アカウントを持っていない場合は
                 <Link to="../SignUp">新規登録</Link>へ。
-            </Paper>
-        </Container>
+            </div>
+        </main>
     )
+}
+
+const styles = {
+    main: css({
+        maxWidth: theme.breakpoints.md,
+        margin: '0 auto',
+        padding: '50px 0',
+    }),
+    form: {
+        wrapper: css({
+            display: 'grid',
+            rowGap: '20px',
+        }),
+        button: css({}),
+    },
+    status: {
+        wrapper: css({
+            padding: '20px',
+            borderRadius: theme.radius.md,
+        }),
+        error: css({
+            backgroundColor: theme.colors.dangerLight,
+            color: theme.colors.dangerShade,
+        }),
+    },
 }

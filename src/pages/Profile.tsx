@@ -1,47 +1,38 @@
-import React, { Suspense, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../lib/AuthContextProvider'
-import { TextInput, Container, Paper, Group } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
-import { z } from 'zod'
-import { TextInputError } from '../components/TextInputError'
 import { Button } from '../components/Button'
+import { TextInput } from '../components/TextInput'
+import { Title } from '../components/Title'
 
-type UsersResponse = {
-    Success: {
-        name: string
-    }
-    Error: {
-        ErrorCode: number
-        ErrorMessageJP: string
-        ErrorMessageEN: string
-    }
-}
+import { css } from '@emotion/react'
+import { theme } from '../style/theme'
 
-const UserSchema = z.object({
-    name: z
-        .string()
-        .min(1, { message: '名前が入力されていません' })
-        .max(20, { message: '名前は20文字以下にしてください' }),
-})
-
-type User = z.infer<typeof UserSchema>
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { nameSchema } from '../lib/formSchema/nameSchema'
 
 export const Profile = () => {
-    const [errorStatus, setErrorStatus] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [statusMessage, setStatusMessage] = useState<APIStatus>({
+        status: '',
+        message: '',
+    })
 
     const auth = useAuth()
 
-    const form = useForm({
-        schema: zodResolver(UserSchema),
-        initialValues: {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<nameSchema>({
+        resolver: zodResolver(nameSchema),
+        defaultValues: {
             name: auth.getName(),
         },
     })
 
-    const requestPOSTUser = (values: User) => {
-        setErrorStatus(false)
+    const onSubmit = handleSubmit((values: nameSchema) => {
         const token = sessionStorage.getItem('auth.token')
+
         fetch('https://api-for-missions-and-railways.herokuapp.com/users', {
             method: 'PUT',
             body: JSON.stringify(values),
@@ -52,43 +43,85 @@ export const Profile = () => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    response.json().then((data: UsersResponse['Error']) => {
-                        setErrorMessage(data.ErrorMessageJP)
-                        setErrorStatus(true)
+                    response.json().then((data: BooksAPI.Error) => {
+                        setStatusMessage({
+                            status: 'error',
+                            message: data.ErrorMessageJP,
+                        })
                     })
                     return
                 }
-                response.json().then((data: UsersResponse['Success']) => {
+                response.json().then((data) => {
                     auth.updateName(data.name)
+                    setStatusMessage({
+                        status: 'success',
+                        message: '名前を変更しました！',
+                    })
                 })
             })
             .catch(() => {
-                setErrorMessage('おや！なんらかのエラーが発生しました')
-                setErrorStatus(true)
+                setStatusMessage({
+                    status: 'error',
+                    message: 'おや！なんらかのエラーが発生しました',
+                })
             })
-    }
+    })
 
     return (
-        <Container size="xs">
-            <Paper radius="md" px={50} py={30} withBorder>
-                <h2>プロフィール</h2>
-                {errorStatus && <TextInputError>{errorMessage}</TextInputError>}
-                <Suspense fallback={<p>loading</p>}>
-                    <form
-                        onSubmit={form.onSubmit((values) =>
-                            requestPOSTUser(values)
-                        )}
-                    >
-                        <TextInput
-                            label="name"
-                            {...form.getInputProps('name')}
-                        />
-                        <Group mt="md">
-                            <Button type="submit">変更</Button>
-                        </Group>
-                    </form>
-                </Suspense>
-            </Paper>
-        </Container>
+        <main css={styles.main}>
+            <Title size="2">ユーザーネーム変更</Title>
+            {statusMessage.status == 'success' && (
+                <p css={[styles.status.wrapper, styles.status.success]}>
+                    {statusMessage.message}
+                </p>
+            )}
+            {statusMessage.status == 'error' && (
+                <p css={[styles.status.wrapper, styles.status.error]}>
+                    {statusMessage.message}
+                </p>
+            )}
+            <form method="post" onSubmit={onSubmit} css={styles.form.wrapper}>
+                <TextInput
+                    label="ユーザーネーム"
+                    name="name"
+                    errorMessage={errors.name?.message}
+                    register={register('name')}
+                />
+                <div css={styles.form.button}>
+                    <Button type="submit" size="lg">
+                        変更する
+                    </Button>
+                </div>
+            </form>
+        </main>
     )
+}
+
+const styles = {
+    main: css({
+        maxWidth: theme.breakpoints.md,
+        margin: '0 auto',
+        padding: '50px 0',
+    }),
+    form: {
+        wrapper: css({
+            display: 'grid',
+            rowGap: '20px',
+        }),
+        button: css({}),
+    },
+    status: {
+        wrapper: css({
+            padding: '20px',
+            borderRadius: theme.radius.md,
+        }),
+        error: css({
+            backgroundColor: theme.colors.dangerLight,
+            color: theme.colors.dangerShade,
+        }),
+        success: css({
+            backgroundColor: theme.colors.successLight,
+            color: theme.colors.successShade,
+        }),
+    },
 }
