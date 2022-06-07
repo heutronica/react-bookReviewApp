@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 interface AuthContextType {
     name: string
     updateName: (name: string) => void
-    getName: (callback: VoidFunction) => string
+    getName: () => string
     isLoading: boolean
     isAuth: boolean
     signIn: (callback: VoidFunction) => void
@@ -28,7 +28,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [name, setName] = useState<string | undefined>()
+    const [name, setName] = useState('')
     const [isAuth, setIsAuth] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
 

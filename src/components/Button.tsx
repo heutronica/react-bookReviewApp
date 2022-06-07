@@ -6,7 +6,7 @@ type Props = React.ComponentProps<'button'> & {
     outline?: boolean
     rounded?: boolean
     size?: 'sm' | 'lg'
-    onClick?: () => VoidFunction
+    onClick?: (event: React.MouseEvent<HTMLInputElement>) => void
 }
 
 export const Button: React.FC<Props> = ({
