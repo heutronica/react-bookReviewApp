@@ -5,6 +5,7 @@ import { css } from '@emotion/react'
 import { theme } from '../style/theme'
 import { LinkButton } from './LinkButton'
 import { useState } from 'react'
+import { UserIcon } from './UserIcon'
 
 export const Header = () => {
     const auth = useAuth()
@@ -36,6 +37,7 @@ export const Header = () => {
                     {auth.isAuth ? (
                         <>
                             <div css={menu.wrapper}>
+                                <UserIcon username={auth.getName()} size={50} />
                                 <button onClick={openMenu} css={menu.name}>
                                     {auth.getName()}
                                 </button>
@@ -66,7 +68,6 @@ export const Header = () => {
                                     </ul>
                                 </span>
                             </div>
-                            <Suspense fallback={<p>loading</p>}></Suspense>
                             <LinkButton to="/new" rounded size="sm">
                                 投稿する
                             </LinkButton>
