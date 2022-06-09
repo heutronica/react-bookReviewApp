@@ -41,7 +41,7 @@ export const Books = () => {
             </div>
             <div css={styles.bookList}>
                 {books.map((props) => (
-                    <BookCard {...props} />
+                    <BookCard {...props} key={props.id} />
                 ))}
             </div>
         </main>
