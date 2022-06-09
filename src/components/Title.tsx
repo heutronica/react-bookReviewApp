@@ -26,14 +26,17 @@ export const Title: React.FC<Props> = ({ children, size }) => {
 
 const styles = {
     h1: css({
+        marginTop: '0',
         fontSize: '3rem',
         fontWeight: '700',
     }),
     h2: css({
+        marginTop: '0',
         fontSize: '1.5rem',
         fontWeight: '500',
     }),
     h3: css({
+        marginTop: '0',
         fontSize: '1.2rem',
         fontWeight: '700',
     }),
