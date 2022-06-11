@@ -1,8 +1,9 @@
-import { theme } from '../style/theme'
+import { theme, mq } from '../style/theme'
 import { css } from '@emotion/react'
+import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
 import { BookCover } from '../components/BookCover'
 import { Button } from '../components/Button'
-import { Title } from '../components/Title'
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -44,94 +45,126 @@ export const Detail = () => {
     }
 
     return (
-        <main css={styles.main}>
-            <div css={styles.wrapper}>
-                <div css={styles.subColumn}>
-                    <BookCover id={books.id} title={books.title} />
-                    <LinkButton to={books.url} size="sm">
-                        購入する
-                    </LinkButton>
-                </div>
-                <div css={styles.mainColumn}>
-                    <div css={styles.bookDetail}>
-                        <Title size="2">{books.title}</Title>
-                        <p css={styles.bookDetailText}>{books.detail}</p>
+        <>
+            <Header />
+            <main css={styles.main}>
+                <div css={styles.wrapper}>
+                    <div css={styles.title}>
+                        <h2>{books.title}</h2>
+                        {books?.isMine && <Button size="sm">編集画面</Button>}
                     </div>
-                    <div css={styles.review}>
-                        <div css={styles.reviewHeader}>
+                    <div css={styles.subColumn}>
+                        <BookCover id={books.id} title={books.title} />
+                        <LinkButton to={books.url} size="sm">
+                            購入する
+                        </LinkButton>
+                    </div>
+                    <div css={styles.mainColumn}>
+                        <div css={styles.review}>
                             <div css={styles.reviewer}>
                                 <UserIcon username={books.reviewer} size={30} />
                                 {books.reviewer}
                             </div>
-                            {books?.isMine && (
-                                <Button size="sm">編集画面</Button>
-                            )}
+                            <p>{books.review}</p>
                         </div>
-                        <p>{books.review}</p>
+                        <div css={styles.bookDetail.wrapper}>
+                            <p css={styles.bookDetail.head}>本の概要</p>
+                            <p css={styles.bookDetail.text}>{books.detail}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 
-const breakpoints = Object.values(theme.breakpoints)
-const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
-
 const styles = {
     main: css({
-        padding: '50px 30px',
+        padding: '40px 1.2rem',
+        [mq[0]]: {
+            padding: '50px 0',
+        },
     }),
     wrapper: css({
-        display: 'flex',
+        display: 'grid',
+        gridTemplateColumns: '200px 1fr',
         margin: '0 auto',
         maxWidth: theme.breakpoints.lg,
-        columnGap: '80px',
-        [mq[1]]: { flexDirection: 'column', alignItems: 'center' },
+        columnGap: '50px',
+        rowGap: '40px',
+        [mq[1]]: {
+            gridTemplateColumns: '1fr',
+        },
+    }),
+    title: css({
+        gridColumn: '1 / 3',
+        display: 'flex',
+        alignItems: 'center',
+        borderBottom: 'solid 1px',
+        borderColor: theme.black,
+        paddingBottom: '1rem',
+        [mq[1]]: {
+            gridColumn: '1 / 2',
+            flexDirection: 'column',
+        },
     }),
     mainColumn: css({
+        gridColumn: '2 / 3',
         display: 'flex',
         width: '100%',
+        rowGap: '20px',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        [mq[1]]: {
+            gridColumn: '1 / 2',
+        },
     }),
     subColumn: css({
+        gridColumn: '1 / 2',
         display: 'flex',
         flexDirection: 'column',
         width: '200px',
         rowGap: '10px',
+        [mq[1]]: {
+            gridColumn: '1 / 2',
+            margin: '0 auto',
+        },
     }),
-    bookDetail: css({
+    bookDetail: {
+        wrapper: css({
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: theme.defaultColors.gray[1],
+            borderRadius: theme.radius.md,
+            padding: '40px clamp(2rem, 5vw, 4rem)',
+
+            [mq[0]]: {
+                borderRadius: '0',
+            },
+        }),
+        head: css({ marginBottom: '20px' }),
+        text: css({
+            height: 'fit-content',
+            fontSize: theme.fontSizes.sm,
+            lineHeight: '1.7',
+        }),
+    },
+    review: css({
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: theme.defaultColors.gray[1],
-        borderRadius: theme.radius.md,
-        padding: '40px 50px',
-        marginBottom: '30px',
-    }),
-    bookDetailText: css({
-        display: '-webkit-box',
-        height: 'fit-content',
-        overflow: 'hidden',
-        '-webkitBoxOrient': 'vertical',
-        '-webkitLineClamp': '4',
-        margin: '0',
-        fontSize: theme.fontSizes.sm,
-        lineHeight: '1.2',
-    }),
-    review: css({
-        padding: '30px 50px',
+        padding: '3vh clamp(1rem, 5vw, 4rem)',
         border: '1px solid',
-        borderRadius: theme.radius.md,
-        borderColor: theme.colors.lightShade,
-    }),
-    reviewHeader: css({
-        display: 'flex',
-        justifyContent: 'space-between',
+        borderColor: theme.black,
+        rowGap: '30px',
+        [mq[0]]: {
+            margin: '0 1rem',
+        },
     }),
     reviewer: css({
         display: 'flex',
         alignItems: 'center',
-        columnGap: '10px',
+        columnGap: '15px',
+        fontSize: theme.fontSizes.sm,
     }),
 }

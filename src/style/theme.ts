@@ -50,7 +50,7 @@ export const theme: defaultTheme = {
     breakpoints: {
         sm: '380px',
         md: '780px',
-        lg: '1200px',
+        lg: '1120px',
     },
     radius: {
         sm: '2px',
@@ -58,12 +58,19 @@ export const theme: defaultTheme = {
         lg: '10px',
     },
     shadow: {
-        sm: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
-        md: '0px 0px 10px 0px rgba(0, 0, 0, 0.3)',
+        sm: '1px 1px 0 0px #393533',
+        md: '3px 3px 0 2px #393533',
+        //sm: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
+        //md: '0px 0px 10px 0px rgba(0, 0, 0, 0.3)',
+        //md: '0px 4px rgba(0, 0, 0, 0.9)',
     },
     fontSizes: {
-        sm: '0.8rem',
-        md: '1rem',
-        lg: '1.2rem',
+        //https://min-max-calculator.9elements.com/
+        sm: 'clamp(0.688rem, 0.637rem + 0.25vw, 0.813rem)',
+        md: 'clamp(0.875rem, 0.825rem + 0.25vw, 1rem)',
+        lg: 'clamp(1rem, 0.92rem + 0.4vw, 1.2rem)',
     },
 }
+
+const breakpoints = Object.values(theme.breakpoints)
+export const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)

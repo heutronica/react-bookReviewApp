@@ -1,4 +1,4 @@
 declare interface APIStatus {
-    status: 'success' | 'error' | ''
+    status: 'success' | 'error' | 'default'
     message: string
 }

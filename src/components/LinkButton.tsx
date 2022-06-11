@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { buttonStyle } from '../style/button'
+import { buttonStyle } from '../style/parts/button'
 
 type Props = React.ComponentProps<'button'> & {
     children: React.ReactNode

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { theme } from '../style/theme'
+import { theme } from '../theme'
 
 export const buttonStyle = (
     size?: string,
@@ -31,37 +31,31 @@ const styles = {
         cursor: 'pointer',
         boxShadow: theme.shadow.sm,
         textDecoration: 'none',
+        border: 'solid 1px',
+        borderColor: theme.black,
 
         '&:hover,:focus': {
+            textDecoration: 'none',
             boxShadow: 'none',
+            transform: 'translate(1px, 1px)',
         },
     }),
     filled: css({
-        borderWidth: '0',
-        backgroundColor: theme.colors.secondary,
-        color: theme.white,
-
-        '&:hover,:focus': {
-            backgroundColor: theme.colors.secondaryTint,
-        },
-        '&:active': {
-            backgroundColor: theme.colors.secondaryShade,
-        },
-    }),
-    outline: css({
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: theme.white,
-        boxSizing: 'border-box',
         backgroundColor: theme.colors.primary,
         color: theme.white,
 
         '&:hover,:focus': {
-            backgroundColor: theme.colors.primaryTint,
+            //backgroundColor: theme.colors.secondaryTint,
         },
         '&:active': {
-            backgroundColor: theme.colors.primaryShade,
+            //backgroundColor: theme.colors.secondaryShade,
         },
+    }),
+    outline: css({
+        color: theme.black,
+
+        '&:hover,:focus': {},
+        '&:active': {},
     }),
     rounded: css({
         borderRadius: '999px',

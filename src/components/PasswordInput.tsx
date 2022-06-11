@@ -3,32 +3,45 @@ import { UseFormRegisterReturn } from 'react-hook-form'
 import { theme } from '../style/theme'
 
 type Props = {
-    label: string
-    type: string
+    label?: string
     errorMessage: string | undefined
     register: UseFormRegisterReturn
-    defaultValue?: string
     placeholder?: string
 }
 
-export const TextArea: React.FC<Props> = ({
+export const PasswordInput: React.FC<Props> = ({
     label,
     errorMessage,
     register,
-    defaultValue,
     placeholder,
 }) => {
     return (
         <div>
-            <label css={[styles.label, errorMessage && styles.labelError]}>
-                {label}
-            </label>
+            {label && (
+                <label css={[styles.label, errorMessage && styles.labelError]}>
+                    {label}
+                </label>
+            )}
             <div>
-                <textarea
-                    css={[styles.input, errorMessage && styles.inputError]}
-                    placeholder={placeholder}
-                    {...register}
-                />
+                {label ? (
+                    <input
+                        type="password"
+                        css={[styles.input, errorMessage && styles.inputError]}
+                        placeholder={placeholder}
+                        {...register}
+                    />
+                ) : (
+                    <input
+                        type="password"
+                        css={[
+                            styles.input,
+                            styles.nolabel,
+                            errorMessage && styles.inputError,
+                        ]}
+                        placeholder={placeholder}
+                        {...register}
+                    />
+                )}
                 {errorMessage && (
                     <span css={styles.errorMessage}>{errorMessage}</span>
                 )}
@@ -50,7 +63,6 @@ const styles = {
     }),
     input: css({
         width: '100%',
-        height: '10rem',
         borderRadius: '0 5px 5px 5px',
         padding: '0.4rem 0.7rem',
         borderColor: theme.black,

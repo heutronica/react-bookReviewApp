@@ -23,9 +23,11 @@ export const BookCover: React.FC<Props> = ({ id, title }) => {
     })
 
     return (
-        <Link to={'/detail/' + id} css={styles.title}>
-            <div css={[styles.wrapper, backgroundColor]}>{title}</div>
-        </Link>
+        <>
+            <div css={[styles.wrapper, backgroundColor]}>
+                <p css={styles.title}>{title}</p>
+            </div>
+        </>
     )
 }
 
@@ -34,21 +36,25 @@ const styles = {
         display: 'flex',
         flexShrink: '0',
         borderRadius: theme.radius.md,
-        boxShadow: theme.shadow.sm,
+        boxShadow: theme.shadow.md,
         width: '100%',
         margin: '0 auto',
+        alignItems: 'center',
         aspectRatio: '3 / 4',
-        cursor: 'pointer',
-        padding: '15px',
+        padding: '15%',
         overflow: 'hidden',
         wordBreak: 'break-word',
+        border: 'solid 1px',
+        borderColor: theme.black,
     }),
     title: css({
         color: theme.white,
-        textDecoration: 'none',
-        //fontSize: theme.fontSizes.sm,
-        fontSize: '100%',
+        lineHeight: '1.1',
+        fontSize: theme.fontSizes.sm,
         fontWeight: '700',
-        lineHeight: '0.9rem',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        '-webkitBoxOrient': 'vertical',
+        '-webkitLineClamp': '5',
     }),
 }

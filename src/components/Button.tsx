@@ -1,5 +1,5 @@
 import React from 'react'
-import { buttonStyle } from '../style/button'
+import { buttonStyle } from '../style/parts/button'
 
 type Props = React.ComponentProps<'button'> & {
     children: React.ReactNode

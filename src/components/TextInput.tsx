@@ -3,8 +3,8 @@ import { UseFormRegisterReturn } from 'react-hook-form'
 import { theme } from '../style/theme'
 
 type Props = {
-    label?: string
-    name: string
+    label: string
+    type: string
     errorMessage: string | undefined
     register: UseFormRegisterReturn
     defaultValue?: string
@@ -13,7 +13,7 @@ type Props = {
 
 export const TextInput: React.FC<Props> = ({
     label,
-    name,
+    type,
     errorMessage,
     register,
     defaultValue,
@@ -21,14 +21,17 @@ export const TextInput: React.FC<Props> = ({
 }) => {
     return (
         <div>
-            <label css={styles.label}>{label}</label>
+            <label css={[styles.label, errorMessage && styles.labelError]}>
+                {label}
+            </label>
             <div>
                 <input
-                    type="text"
+                    type={type}
                     css={[styles.input, errorMessage && styles.inputError]}
                     placeholder={placeholder}
                     {...register}
                 />
+
                 {errorMessage && (
                     <span css={styles.errorMessage}>{errorMessage}</span>
                 )}
@@ -39,20 +42,28 @@ export const TextInput: React.FC<Props> = ({
 
 const styles = {
     label: css({
-        display: 'block',
-        margin: '5px 0',
+        display: 'inline-block',
         textAlign: 'left',
-        fontSize: theme.fontSizes.md,
-        //fontWeight: '600',
-        color: theme.colors.mediumShade,
+        fontSize: theme.fontSizes.sm,
+        fontWeight: '700',
+        color: theme.white,
+        backgroundColor: theme.black,
+        borderRadius: '5px 5px 0 0',
+        padding: '0.4rem 1rem',
     }),
     input: css({
         width: '100%',
-        borderRadius: theme.radius.md,
+        borderRadius: '0 5px 5px 5px',
         padding: '0.4rem 0.7rem',
-        borderColor: theme.colors.lightShade,
+        borderColor: theme.black,
         backgroundColor: theme.colors.light,
     }),
+    nolabel: {
+        borderRadius: '5px',
+    },
+    labelError: {
+        backgroundColor: theme.colors.danger,
+    },
     inputError: css({
         borderColor: theme.colors.danger,
         backgroundColor: theme.colors.dangerLight,

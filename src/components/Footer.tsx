@@ -1,72 +1,43 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContextProvider'
 import { css } from '@emotion/react'
-import { theme } from '../style/theme'
-import { Button } from './Button'
-import { LinkButton } from './LinkButton'
+import { theme, mq } from '../style/theme'
 
 export const Footer = () => {
-    const auth = useAuth()
-    const navigate = useNavigate()
-    const logout = () => {
-        auth.signOut(() => {
-            navigate('/login', { replace: true })
-        })
-    }
     return (
-        <header css={styles.header}>
+        <footer css={styles.footer}>
             <div css={styles.wrapper}>
-                <div css={styles.group}>
-                    <Link to="/" css={styles.title}>
-                        Favbook
-                    </Link>
-                </div>
-                <div css={styles.nav}>
-                    {auth.isAuth ? (
-                        <>
-                            <Button onClick={logout}>ログアウト</Button>
-                        </>
-                    ) : (
-                        <>
-                            <LinkButton to="/login" size="sm" outline rounded>
-                                ログイン
-                            </LinkButton>
-                            <LinkButton to="/signup" size="sm" rounded>
-                                ユーザー登録
-                            </LinkButton>
-                        </>
-                    )}
-                </div>
+                <Link to="/" css={styles.title}>
+                    Favbook
+                </Link>
             </div>
-        </header>
+        </footer>
     )
 }
 
 const styles = {
-    header: css({
+    footer: css({
+        backgroundColor: theme.colors.light,
         position: 'relative',
-        backgroundColor: theme.defaultColors.gray[5],
-        padding: '20px 30px',
+        marginTop: 'auto',
+        padding: ' 2rem 1.2rem',
+        borderTop: 'solid 1px',
+        borderColor: theme.black,
+        [mq[0]]: {
+            padding: '0 1.2rem 1.2rem 1.2rem',
+        },
     }),
     wrapper: css({
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         maxWidth: theme.breakpoints.lg,
         margin: '0 auto',
-    }),
-    group: css({}),
-    nav: css({
-        display: 'flex',
-        columnGap: '1rem',
+        padding: '1rem clamp(0.5rem, 3vw, 2rem)',
     }),
     title: css({
         textDecoration: 'none',
-        fontSize: '1.5rem',
+        fontSize: '1.2rem',
         fontWeight: '700',
-        color: theme.white,
-    }),
-    name: css({
-        color: theme.white,
-        cursor: 'pointer',
+        color: theme.black,
     }),
 }

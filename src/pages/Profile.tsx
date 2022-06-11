@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useAuth } from '../lib/AuthContextProvider'
 import { Button } from '../components/Button'
 import { TextInput } from '../components/TextInput'
-import { Title } from '../components/Title'
+import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
 
 import { css } from '@emotion/react'
-import { theme } from '../style/theme'
+import { theme, mq } from '../style/theme'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -13,7 +14,7 @@ import { nameSchema } from '../lib/formSchema/nameSchema'
 
 export const Profile = () => {
     const [statusMessage, setStatusMessage] = useState<APIStatus>({
-        status: '',
+        status: 'default',
         message: '',
     })
 
@@ -68,60 +69,144 @@ export const Profile = () => {
     })
 
     return (
-        <main css={styles.main}>
-            <Title size="2">ユーザーネーム変更</Title>
-            {statusMessage.status == 'success' && (
-                <p css={[styles.status.wrapper, styles.status.success]}>
-                    {statusMessage.message}
-                </p>
-            )}
-            {statusMessage.status == 'error' && (
-                <p css={[styles.status.wrapper, styles.status.error]}>
-                    {statusMessage.message}
-                </p>
-            )}
-            <form method="post" onSubmit={onSubmit} css={styles.form.wrapper}>
-                <TextInput
-                    label="ユーザーネーム"
-                    name="name"
-                    errorMessage={errors.name?.message}
-                    register={register('name')}
-                />
-                <div css={styles.form.button}>
-                    <Button type="submit" size="lg">
-                        変更する
-                    </Button>
+        <>
+            <Header />
+            <main css={styles.main}>
+                <div css={styles.wrapper}>
+                    <div css={styles.side.container}>
+                        <div css={styles.side.title}>
+                            <h2>ユーザーネーム変更</h2>
+                        </div>
+                        <div
+                            css={[
+                                styles.status.wrapper,
+                                statusMessage.status == 'error' &&
+                                    styles.status.error,
+                                statusMessage.status == 'success' &&
+                                    styles.status.success,
+                                statusMessage.status == 'default' &&
+                                    styles.status.default,
+                            ]}
+                        >
+                            <span>{statusMessage.message}</span>
+                        </div>
+                    </div>
+                    <div css={styles.form.container}>
+                        <form onSubmit={onSubmit} css={styles.form.wrapper}>
+                            <TextInput
+                                label="ユーザーネーム"
+                                type="text"
+                                errorMessage={errors.name?.message}
+                                register={register('name')}
+                            />
+                            <div>
+                                <Button type="submit" size="lg">
+                                    変更する
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 
 const styles = {
     main: css({
-        maxWidth: theme.breakpoints.md,
-        margin: '0 auto',
-        padding: '50px 0',
+        margin: 'auto 0',
+        padding: ' 1.2rem',
+        [mq[1]]: {
+            margin: '0',
+        },
     }),
+    wrapper: css({
+        display: 'grid',
+        margin: '0 auto',
+        maxWidth: theme.breakpoints.lg,
+        gridTemplateColumns: '1fr clamp(200px, 70vw, 800px)',
+        gridTemplateRows: '1fr',
+        border: 'solid 2px',
+        borderColor: theme.black,
+        [mq[1]]: {
+            gridTemplateColumns: '1fr',
+        },
+    }),
+    side: {
+        container: css({
+            gridColumn: '1/2',
+            display: 'grid',
+            gridTemplateRows: '2fr 1fr',
+            borderRight: 'solid 1px',
+            borderColor: theme.black,
+            [mq[1]]: {
+                gridRow: '2/3',
+                gridTemplateRows: '1fr',
+                borderRight: 'none',
+                borderBottom: 'solid 1px',
+            },
+        }),
+        title: css({
+            padding: '2rem',
+            gridRow: '1/2',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+        }),
+        guide: css({
+            color: theme.colors.medium,
+            marginTop: '1rem',
+            fontSize: theme.fontSizes.sm,
+        }),
+    },
     form: {
+        container: css({
+            display: 'flex',
+            alignItems: 'center',
+            gridColumn: '2/3',
+            padding: '2rem',
+            [mq[1]]: {
+                gridColumn: '1/2',
+                gridRow: '3/4',
+            },
+        }),
         wrapper: css({
             display: 'grid',
-            rowGap: '20px',
+            width: '100%',
+            rowGap: '2rem',
         }),
-        button: css({}),
+        password: css({
+            display: 'grid',
+            rowGap: '0.5rem',
+        }),
     },
     status: {
         wrapper: css({
-            padding: '20px',
-            borderRadius: theme.radius.md,
+            gridRow: '2/3',
+            width: '100%',
+            padding: '2rem',
+        }),
+        default: css({
+            [mq[1]]: {
+                display: 'none',
+            },
         }),
         error: css({
-            backgroundColor: theme.colors.dangerLight,
-            color: theme.colors.dangerShade,
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: theme.colors.dangerShade,
+            borderTop: 'solid 1px',
+            borderColor: theme.black,
+            color: theme.white,
         }),
         success: css({
-            backgroundColor: theme.colors.successLight,
-            color: theme.colors.successShade,
+            display: 'flex',
+            alignItems: 'center',
+            borderTop: 'solid 1px',
+            borderColor: theme.black,
+            backgroundColor: theme.colors.successShade,
+            color: theme.colors.successLight,
         }),
     },
 }

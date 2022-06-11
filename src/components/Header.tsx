@@ -1,8 +1,7 @@
-import { Suspense } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContextProvider'
 import { css } from '@emotion/react'
-import { theme } from '../style/theme'
+import { theme, mq } from '../style/theme'
 import { LinkButton } from './LinkButton'
 import { useState } from 'react'
 import { UserIcon } from './UserIcon'
@@ -36,10 +35,15 @@ export const Header = () => {
                 <div css={styles.nav}>
                     {auth.isAuth ? (
                         <>
+                            <LinkButton to="/new" rounded size="sm">
+                                投稿する
+                            </LinkButton>
                             <div css={menu.wrapper}>
-                                <UserIcon username={auth.getName()} size={50} />
                                 <button onClick={openMenu} css={menu.name}>
-                                    {auth.getName()}
+                                    <UserIcon
+                                        username={auth.getName()}
+                                        size={40}
+                                    />
                                 </button>
                                 <span
                                     css={[
@@ -51,10 +55,18 @@ export const Header = () => {
                                 >
                                     <ul css={menu.list}>
                                         <li>
-                                            <button css={menu.listItem}>
-                                                <Link to="/profile">
-                                                    名前変更
-                                                </Link>
+                                            <span css={menu.listUsername}>
+                                                {auth.getName()}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <button
+                                                css={menu.listItem}
+                                                onClick={() =>
+                                                    navigate('/profile')
+                                                }
+                                            >
+                                                ✍ 名前変更
                                             </button>
                                         </li>
                                         <li>
@@ -62,15 +74,12 @@ export const Header = () => {
                                                 onClick={logout}
                                                 css={menu.listItem}
                                             >
-                                                ログアウト
+                                                🚪 ログアウト
                                             </button>
                                         </li>
                                     </ul>
                                 </span>
                             </div>
-                            <LinkButton to="/new" rounded size="sm">
-                                投稿する
-                            </LinkButton>
                         </>
                     ) : (
                         <>
@@ -91,41 +100,56 @@ export const Header = () => {
 const styles = {
     header: css({
         position: 'relative',
-        backgroundColor: theme.colors.primary,
-        padding: '20px 30px',
+        padding: ' 1.2rem',
+        [mq[0]]: {
+            padding: '0 1.2rem 1.2rem 1.2rem',
+        },
     }),
     wrapper: css({
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         maxWidth: theme.breakpoints.lg,
         margin: '0 auto',
+        padding: '1rem clamp(0.5rem, 3vw, 2rem)',
+        border: 'solid 1px',
+        borderColor: theme.black,
+        [mq[0]]: {
+            paddingTop: '2.2rem',
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+            borderTop: 'none',
+            flexDirection: 'column',
+        },
     }),
     group: css({}),
     nav: css({
         display: 'flex',
         columnGap: '1rem',
+        alignItems: 'center',
     }),
     title: css({
         textDecoration: 'none',
         fontSize: '1.5rem',
         fontWeight: '700',
-        color: theme.white,
-    }),
-    name: css({
-        color: theme.white,
-        cursor: 'pointer',
+        color: theme.black,
     }),
 }
 
 const menu = {
     wrapper: css({
         position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     }),
     isVisible: css({
+        display: 'block',
         opacity: 1,
         zIndex: 1,
     }),
     notVisible: css({
+        display: 'none',
         opacity: 0,
         pointerEvents: 'none',
     }),
@@ -133,20 +157,17 @@ const menu = {
         cursor: 'pointer',
         fontSize: theme.fontSizes.md,
         border: 'none',
-        color: theme.white,
-        ':is(:focus-visible, :hover)': {
-            textDecoration: 'underline',
-        },
     }),
     listWrapper: css({
         position: 'absolute',
-        width: 'fit-content',
-        right: 0,
-        top: '100%',
-        textAlign: 'right',
+        width: 'max-content',
+        right: '0',
+        top: '110%',
+        border: 'solid 2px',
+        borderColor: theme.black,
         backgroundColor: theme.white,
         borderRadius: theme.radius.md,
-        boxShadow: theme.shadow.md,
+        boxShadow: theme.shadow.sm,
     }),
     list: css({
         listStyle: 'none',
@@ -154,13 +175,17 @@ const menu = {
         padding: '5px 0',
         margin: '0',
         width: '100%',
+
+        fontSize: theme.fontSizes.sm,
+    }),
+    listUsername: css({
+        display: 'inline-flex',
+        padding: '10px 20px',
     }),
     listItem: css({
-        display: 'inline-flex',
-        justifyContent: 'flex-end',
-        cursor: 'pointer',
         padding: '10px 20px',
-        fontSize: theme.fontSizes.sm,
+        display: 'inline-flex',
+        cursor: 'pointer',
         border: 'none',
         width: '100%',
         ':is(:focus-visible, :hover)': {

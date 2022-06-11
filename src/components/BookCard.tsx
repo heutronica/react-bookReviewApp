@@ -1,6 +1,8 @@
-import { theme } from '../style/theme'
+import { theme, mq } from '../style/theme'
 import { css } from '@emotion/react'
 import { BookCover } from '../components/BookCover'
+import { useNavigate } from 'react-router-dom'
+import { UserIcon } from '../components/UserIcon'
 
 type Props = {
     detail: string
@@ -18,82 +20,104 @@ export const BookCard: React.FC<Props> = ({
     review,
     reviewer,
 }) => {
+    const navigate = useNavigate()
     return (
         <div css={styles.wrapper}>
-            <p css={styles.reviewer}>{reviewer}</p>
+            <div css={styles.reviewer}>
+                <UserIcon username={reviewer} size={30} />
+                <p>{reviewer}</p>
+            </div>
             <h2 css={styles.review}>{review}</h2>
-            <div css={styles.bookDetail}>
-                <div css={styles.bookCover}>
+            <div css={styles.bookData.wrapper}>
+                <div
+                    css={styles.bookCover}
+                    onClick={() => navigate('/detail/' + id)}
+                >
                     <BookCover id={id} title={title} />
                 </div>
-                <p css={styles.title}>{title}</p>
-                <p css={styles.detail}>{detail}</p>
+                <div css={styles.bookData.detailWrapper}>
+                    <p css={styles.bookData.title}>{title}</p>
+                    <p css={styles.bookData.detail}>{detail}</p>
+                </div>
             </div>
         </div>
     )
 }
-
-const breakpoints = Object.values(theme.breakpoints)
-const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
 
 const styles = {
     wrapper: css({
         display: 'flex',
         overflow: 'hidden',
         flexDirection: 'column',
+        rowGap: '1rem',
         justifyContent: 'space-between',
-        padding: '20px 30px',
+        padding: 'clamp(0.5rem, 3vw, 2rem)',
         border: '1px solid',
-        borderRadius: theme.radius.md,
-        borderColor: theme.colors.lightShade,
+        borderColor: theme.black,
     }),
     review: css({
         display: '-webkit-box',
-        fontSize: '1.2rem',
+        fontSize: theme.fontSizes.lg,
         overflow: 'hidden',
         '-webkitBoxOrient': 'vertical',
         '-webkitLineClamp': '2',
-        marginBottom: '25px',
     }),
-    bookDetail: css({
-        display: 'grid',
-        gridTemplateColumns: 'repeat(fit-content, 1fr)',
-        gridTemplateRows: 'repeat(fit-content, 1fr)',
-        gridColumnGap: '20px',
-        gridRowGap: '10px',
-        backgroundColor: theme.defaultColors.gray[1],
-        borderRadius: theme.radius.md,
-        padding: '20px',
-        //[mq[1]]: { flexDirection: 'column', alignItems: 'center' },
-    }),
+    bookData: {
+        wrapper: css({
+            display: 'grid',
+            gridTemplateColumns: 'auto 2fr',
+            gridColumnGap: '20px',
+            gridRowGap: '10px',
+
+            backgroundColor: theme.defaultColors.gray[1],
+            borderRadius: theme.radius.md,
+            padding: '20px',
+        }),
+        detailWrapper: css({
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            rowGap: '1rem',
+        }),
+        title: css({
+            fontSize: '1rem',
+            width: '100%',
+            height: 'fit-content',
+            fontWeight: '700',
+            margin: '0',
+            display: '-webkit-box',
+            overflow: 'hidden',
+            '-webkitBoxOrient': 'vertical',
+            '-webkitLineClamp': '2',
+        }),
+        detail: css({
+            display: '-webkit-box',
+            height: 'fit-content',
+            overflow: 'hidden',
+            '-webkitBoxOrient': 'vertical',
+            '-webkitLineClamp': '4',
+            margin: '0',
+            fontSize: theme.fontSizes.sm,
+            lineHeight: '1.2',
+        }),
+    },
     bookCover: css({
-        gridArea: ' 1 / 1 / 3 / 2',
+        display: 'flex',
+        alignItems: 'center',
+        width: 'clamp(70px, 10vw, 120px)',
+        cursor: 'pointer',
+        [mq[0]]: {
+            display: 'none',
+        },
     }),
-    title: css({
-        fontSize: '1rem',
-        width: '100%',
-        height: 'fit-content',
-        fontWeight: '700',
-        margin: '0',
-        display: '-webkit-box',
-        overflow: 'hidden',
-        '-webkitBoxOrient': 'vertical',
-        '-webkitLineClamp': '2',
-        gridArea: '1 / 2 / 2 / 3',
-    }),
-    detail: css({
-        display: '-webkit-box',
-        height: 'fit-content',
-        overflow: 'hidden',
-        '-webkitBoxOrient': 'vertical',
-        '-webkitLineClamp': '4',
-        margin: '0',
-        fontSize: theme.fontSizes.sm,
-        lineHeight: '1.2',
-        gridArea: '2 / 2 / 3 / 3',
-    }),
+
     reviewer: css({
-        fontSize: theme.fontSizes.sm,
+        display: 'flex',
+        columnGap: '0.8rem',
+        alignItems: 'center',
         margin: '0',
+        '> p': {
+            fontSize: theme.fontSizes.sm,
+        },
     }),
 }
