@@ -11,8 +11,7 @@ import { Books } from './pages/Books'
 import { Home } from './pages/Home'
 import { Profile } from './pages/Profile'
 import { New } from './pages/New'
-import { Header } from './components/Header'
-import { Footer } from './components/Footer'
+import { Edit } from './pages/Edit'
 import { Detail } from './pages/{id}'
 
 import { AuthProvider, useAuth } from './lib/AuthContextProvider'
@@ -59,6 +58,14 @@ function App() {
                         element={
                             <RequireAuth>
                                 <Detail />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/edit/:booksId"
+                        element={
+                            <RequireAuth>
+                                <Edit />
                             </RequireAuth>
                         }
                     />

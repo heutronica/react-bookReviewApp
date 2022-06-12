@@ -6,7 +6,7 @@ import { BookCover } from '../components/BookCover'
 import { Button } from '../components/Button'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { LinkButton } from '../components/LinkButton'
 import { UserIcon } from '../components/UserIcon'
 
@@ -23,6 +23,7 @@ interface Book {
 export const Detail = () => {
     const [books, setBooks] = useState<Book>()
     const getId = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const bookAPIURL =
@@ -51,10 +52,19 @@ export const Detail = () => {
                 <div css={styles.wrapper}>
                     <div css={styles.title}>
                         <h2>{books.title}</h2>
-                        {books?.isMine && <Button size="sm">編集画面</Button>}
+                        {books?.isMine && (
+                            <Button
+                                size="sm"
+                                onClick={() => navigate('/edit/' + books.id)}
+                            >
+                                編集画面
+                            </Button>
+                        )}
                     </div>
                     <div css={styles.subColumn}>
-                        <BookCover id={books.id} title={books.title} />
+                        <div>
+                            <BookCover id={books.id} title={books.title} />
+                        </div>
                         <LinkButton to={books.url} size="sm">
                             購入する
                         </LinkButton>
