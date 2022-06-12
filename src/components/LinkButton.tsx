@@ -18,6 +18,15 @@ export const LinkButton: React.FC<Props> = ({
     rounded,
 }) => {
     const style = buttonStyle(size, outline, rounded)
+    if (to.match('http')) {
+        return (
+            <>
+                <a href={to} css={style} target="_blank" rel="noopener">
+                    {children}
+                </a>
+            </>
+        )
+    }
     return (
         <>
             <Link to={to} css={style}>
