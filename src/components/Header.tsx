@@ -3,7 +3,7 @@ import { useAuth } from '../lib/AuthContextProvider'
 import { css } from '@emotion/react'
 import { theme, mq } from '../style/theme'
 import { LinkButton } from './LinkButton'
-import { useState } from 'react'
+import { Menu } from './Menu'
 import { UserIcon } from './UserIcon'
 
 export const Header = () => {
@@ -13,15 +13,6 @@ export const Header = () => {
         auth.signOut(() => {
             navigate('/login', { replace: true })
         })
-    }
-
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-    const openMenu = () => {
-        if (isMenuOpen) {
-            return setIsMenuOpen(false)
-        }
-        return setIsMenuOpen(true)
     }
 
     return (
@@ -38,48 +29,21 @@ export const Header = () => {
                             <LinkButton to="/new" rounded size="sm">
                                 投稿する
                             </LinkButton>
-                            <div css={menu.wrapper}>
-                                <button onClick={openMenu} css={menu.name}>
-                                    <UserIcon
-                                        username={auth.getName()}
-                                        size={40}
-                                    />
-                                </button>
-                                <span
-                                    css={[
-                                        isMenuOpen
-                                            ? menu.isVisible
-                                            : menu.notVisible,
-                                        menu.listWrapper,
-                                    ]}
-                                >
-                                    <ul css={menu.list}>
-                                        <li>
-                                            <span css={menu.listUsername}>
-                                                {auth.getName()}
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <button
-                                                css={menu.listItem}
-                                                onClick={() =>
-                                                    navigate('/profile')
-                                                }
-                                            >
-                                                ✍ 名前変更
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button
-                                                onClick={logout}
-                                                css={menu.listItem}
-                                            >
-                                                🚪 ログアウト
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </span>
-                            </div>
+                            {/*TODO: メニューアイテムの渡し方が気持ち悪い、もっと良い方法があると思う、ドット記法とか*/}
+                            <Menu
+                                menuItem={[
+                                    {
+                                        action: () => navigate('/profile'),
+                                        label: '✍ 名前変更',
+                                    },
+                                    {
+                                        action: logout,
+                                        label: '🚪 ログアウト',
+                                    },
+                                ]}
+                            >
+                                <UserIcon username={auth.getName()} size={40} />
+                            </Menu>
                         </>
                     ) : (
                         <>
@@ -133,64 +97,5 @@ const styles = {
         fontSize: '1.5rem',
         fontWeight: '700',
         color: theme.black,
-    }),
-}
-
-const menu = {
-    wrapper: css({
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    }),
-    isVisible: css({
-        display: 'block',
-        opacity: 1,
-        zIndex: 1,
-    }),
-    notVisible: css({
-        display: 'none',
-        opacity: 0,
-        pointerEvents: 'none',
-    }),
-    name: css({
-        cursor: 'pointer',
-        fontSize: theme.fontSizes.md,
-        border: 'none',
-    }),
-    listWrapper: css({
-        position: 'absolute',
-        width: 'max-content',
-        right: '0',
-        top: '110%',
-        border: 'solid 2px',
-        borderColor: theme.black,
-        backgroundColor: theme.white,
-        borderRadius: theme.radius.md,
-        boxShadow: theme.shadow.sm,
-    }),
-    list: css({
-        listStyle: 'none',
-        display: 'grid',
-        padding: '5px 0',
-        margin: '0',
-        width: '100%',
-
-        fontSize: theme.fontSizes.sm,
-    }),
-    listUsername: css({
-        display: 'inline-flex',
-        padding: '10px 20px',
-    }),
-    listItem: css({
-        padding: '10px 20px',
-        display: 'inline-flex',
-        cursor: 'pointer',
-        border: 'none',
-        width: '100%',
-        ':is(:focus-visible, :hover)': {
-            backgroundColor: theme.colors.secondary,
-            color: theme.white,
-        },
     }),
 }
