@@ -13,6 +13,7 @@ import { Profile } from './pages/Profile'
 import { New } from './pages/New'
 import { Edit } from './pages/Edit'
 import { Detail } from './pages/{id}'
+import { NotFound } from './pages/NotFound'
 
 import { AuthProvider, useAuth } from './lib/AuthContextProvider'
 
@@ -85,6 +86,7 @@ function App() {
                             </RequireAuth>
                         }
                     />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
         </AuthProvider>
