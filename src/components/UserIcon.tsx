@@ -23,7 +23,7 @@ export const UserIcon: React.FC<Props> = ({ size, username }) => {
     })
     let iconColor = css({
         //backgroundColor: colorPicker(),
-        backgroundColor: theme.colors.tertiary,
+        backgroundColor: theme.colors.tertiary.default,
         //backgroundColor: theme.black,
     })
 
@@ -42,11 +42,10 @@ const styles = {
         alignItems: 'center',
         border: 'solid 1px',
         borderColor: theme.black,
-        //boxShadow: theme.shadow.sm,
     }),
     iconName: css({
         display: 'inline-block',
-        color: theme.colors.white,
+        color: theme.white,
         fontWeight: '700',
         margin: '0',
     }),

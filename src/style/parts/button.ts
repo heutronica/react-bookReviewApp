@@ -41,7 +41,7 @@ const styles = {
         },
     }),
     filled: css({
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.primary.default,
         color: theme.white,
 
         '&:hover,:focus': {

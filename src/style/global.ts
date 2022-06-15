@@ -32,7 +32,7 @@ export const globalStyle = {
         fontWeight: '700',
     }),
     a: css({
-        color: theme.colors.primary,
+        color: theme.colors.primary.default,
         textDecoration: 'none',
         '&:hover,:focus': {
             textDecoration: 'underline',

@@ -110,7 +110,7 @@ const styles = {
         border: 'none',
         width: '100%',
         ':is(:focus-visible, :hover)': {
-            backgroundColor: theme.colors.secondary,
+            backgroundColor: theme.colors.secondary.default,
             color: theme.white,
         },
     }),

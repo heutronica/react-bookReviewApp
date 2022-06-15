@@ -56,20 +56,20 @@ const styles = {
         borderRadius: '0 5px 5px 5px',
         padding: '0.4rem 0.7rem',
         borderColor: theme.black,
-        backgroundColor: theme.colors.light,
+        backgroundColor: theme.colors.light.default,
     }),
     nolabel: {
         borderRadius: '5px',
     },
     labelError: {
-        backgroundColor: theme.colors.danger,
+        backgroundColor: theme.colors.danger.default,
     },
     inputError: css({
-        borderColor: theme.colors.danger,
-        backgroundColor: theme.colors.dangerLight,
+        borderColor: theme.colors.danger.default,
+        backgroundColor: theme.colors.danger.light,
     }),
     errorMessage: css({
-        color: theme.colors.danger,
+        color: theme.colors.danger.default,
         fontSize: theme.fontSizes.sm,
         marginTop: '5px',
     }),

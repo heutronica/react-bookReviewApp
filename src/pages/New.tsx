@@ -172,7 +172,7 @@ const styles = {
             flexDirection: 'column',
         }),
         guide: css({
-            color: theme.colors.medium,
+            color: theme.colors.medium.default,
             marginTop: '1rem',
             fontSize: theme.fontSizes.sm,
         }),
@@ -212,7 +212,7 @@ const styles = {
         error: css({
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: theme.colors.dangerShade,
+            backgroundColor: theme.colors.danger.shade,
             borderTop: 'solid 1px',
             borderColor: theme.black,
             color: theme.white,
@@ -222,8 +222,8 @@ const styles = {
             alignItems: 'center',
             borderTop: 'solid 1px',
             borderColor: theme.black,
-            backgroundColor: theme.colors.successShade,
-            color: theme.colors.successLight,
+            backgroundColor: theme.colors.success.shade,
+            color: theme.colors.success.light,
         }),
     },
 }

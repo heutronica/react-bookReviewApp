@@ -17,7 +17,7 @@ export const Footer = () => {
 
 const styles = {
     footer: css({
-        backgroundColor: theme.colors.light,
+        backgroundColor: theme.colors.light.default,
         position: 'relative',
         marginTop: 'auto',
         padding: ' 2rem 1.2rem',

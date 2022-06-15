@@ -3,47 +3,56 @@ import { DEFAULT_COLORS } from './default_colors'
 export const theme: defaultTheme = {
     defaultColors: DEFAULT_COLORS,
     colors: {
-        primary: '#12A3AC',
-        primaryContrast: '#ffffff',
-        primaryShade: '#108f97',
-        primaryTint: '#2aacb4',
-
-        secondary: '#1F4161',
-        secondaryContrast: '#ffffff',
-        secondaryShade: '#1b3955',
-        secondaryTint: '#355471',
-
-        tertiary: '#F29138',
-        tertiaryContrast: '#000000',
-        tertiaryShade: '#d58031',
-        tertiaryTint: '#f39c4c',
-
-        success: '#3e6fee',
-        successContrast: '#ffffff',
-        successShade: '#3762d1',
-        successTint: '#517df0',
-        successLight: '#e0e8fd',
-
-        warning: '#ffc409',
-        warningContrast: '#000000',
-        warningShade: '#e0ac08',
-        warningTint: '#ffca22',
-
-        danger: '#eb445a',
-        dangerContrast: '#ffffff',
-        dangerShade: '#cf3c4f',
-        dangerTint: '#ed576b',
-        dangerLight: '#ffedef',
-
-        medium: '#92949c',
-        mediumContrast: '#000000',
-        mediumShade: '#808289',
-        mediumTint: '#9d9fa6',
-
-        light: '#f4f5f8',
-        lightContrast: '#000000',
-        lightShade: '#d7d8da',
-        lightTint: '#f5f6f9',
+        primary: {
+            default: '#12A3AC',
+            contrast: '#ffffff',
+            shade: '#108f97',
+            tint: '#2aacb4',
+        },
+        secondary: {
+            default: '#1F4161',
+            contrast: '#ffffff',
+            shade: '#1b3955',
+            tint: '#355471',
+        },
+        tertiary: {
+            default: '#F29138',
+            contrast: '#000000',
+            shade: '#d58031',
+            tint: '#f39c4c',
+        },
+        success: {
+            default: '#3e6fee',
+            contrast: '#ffffff',
+            shade: '#3762d1',
+            tint: '#517df0',
+            light: '#e0e8fd',
+        },
+        warning: {
+            default: '#ffc409',
+            contrast: '#000000',
+            shade: '#e0ac08',
+            tint: '#ffca22',
+        },
+        danger: {
+            default: '#eb445a',
+            contrast: '#ffffff',
+            shade: '#cf3c4f',
+            tint: '#ed576b',
+            light: '#ffedef',
+        },
+        medium: {
+            default: '#92949c',
+            contrast: '#000000',
+            shade: '#808289',
+            tint: '#9d9fa6',
+        },
+        light: {
+            default: '#f4f5f8',
+            contrast: '#000000',
+            shade: '#d7d8da',
+            tint: '#f5f6f9',
+        },
     },
     black: '#393533',
     white: '#ffffff',
@@ -60,9 +69,6 @@ export const theme: defaultTheme = {
     shadow: {
         sm: '1px 1px 0 0px #393533',
         md: '3px 3px 0 2px #393533',
-        //sm: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
-        //md: '0px 0px 10px 0px rgba(0, 0, 0, 0.3)',
-        //md: '0px 4px rgba(0, 0, 0, 0.9)',
     },
     fontSizes: {
         //https://min-max-calculator.9elements.com/
@@ -72,5 +78,7 @@ export const theme: defaultTheme = {
     },
 }
 
+// Media Queryの設定
+// TODO: 不親切設計なので、リファクタしたい
 const breakpoints = Object.values(theme.breakpoints)
 export const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)

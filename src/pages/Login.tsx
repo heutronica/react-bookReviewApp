@@ -117,7 +117,6 @@ export const Login = () => {
         </main>
     )
 }
-
 const styles = {
     main: css({
         margin: 'auto 0',
@@ -145,7 +144,7 @@ const styles = {
         borderColor: theme.black,
         padding: '0.5rem 0',
         textAlign: 'center',
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.primary.default,
         color: theme.white,
         [mq[1]]: {
             gridColumn: '1/2',
@@ -172,7 +171,7 @@ const styles = {
             flexDirection: 'column',
         }),
         guide: css({
-            color: theme.colors.medium,
+            color: theme.colors.medium.default,
             marginTop: '1rem',
             fontSize: theme.fontSizes.sm,
         }),
@@ -213,7 +212,7 @@ const styles = {
         error: css({
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: theme.colors.dangerShade,
+            backgroundColor: theme.colors.danger.shade,
             borderTop: 'solid 1px',
             borderColor: theme.black,
             color: theme.white,
