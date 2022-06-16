@@ -84,7 +84,7 @@ const styles = {
         width: 'max-content',
         right: '0',
         top: '110%',
-        border: 'solid 2px',
+        border: theme.border.md,
         borderColor: theme.black,
         backgroundColor: theme.white,
         borderRadius: theme.radius.md,

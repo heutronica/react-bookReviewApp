@@ -63,9 +63,11 @@ export const Books = () => {
             <Header />
             <main css={styles.main}>
                 <div css={styles.wrapper}>
-                    <div css={styles.heroHeader}>
-                        <p>本を読んだときの感情を共有しよう</p>
-                        <h1 css={styles.title}>Favbook</h1>
+                    <div css={styles.heroHeader.wrapper}>
+                        <div css={styles.heroHeader.titleWrapper}>
+                            <p>本を読んだときの感情を共有しよう</p>
+                            <h1 css={styles.title}>Favbook</h1>
+                        </div>
                         <LinkButton to="/signup" rounded>
                             無料ではじめる
                         </LinkButton>
@@ -98,17 +100,48 @@ const breakpoints = Object.values(theme.breakpoints)
 const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
 
 const styles = {
-    main: css({ padding: '0 1.2rem' }),
+    main: css({ padding: '0 0.5rem' }),
     wrapper: css({
         margin: '0 auto',
         maxWidth: theme.breakpoints.lg,
     }),
-    heroHeader: css({
-        backgroundImage: `url("src/img/top_img.png")`,
-        backgroundSize: 'cover',
-        padding: '100px 0px',
-        textAlign: 'center',
-    }),
+    heroHeader: {
+        wrapper: css({
+            border: theme.border.md,
+            borderRadius: theme.radius.md,
+            borderColor: theme.black,
+            backgroundColor: theme.colors.primary.default,
+            padding: '5rem',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '2rem',
+        }),
+        titleWrapper: css({
+            position: 'relative',
+            zIndex: '10',
+            border: theme.border.md,
+            borderRadius: theme.radius.md,
+            borderColor: theme.black,
+            backgroundColor: theme.paperWhite,
+            padding: '3rem 1.5rem',
+
+            '&::after': {
+                content: 'close-quote',
+                zIndex: '10',
+                position: 'absolute',
+                width: '30%',
+                height: '90%',
+                right: '-1rem',
+                bottom: '-1rem',
+                border: theme.border.md,
+                borderRadius: theme.radius.md,
+                borderColor: theme.black,
+                backgroundColor: theme.paperWhite,
+                //padding: '3rem 1.5rem',
+            },
+        }),
+    },
     title: css({
         fontSize: 'clamp(2.5rem, 2.2rem + 4vw, 5rem)',
         lineHeight: '0.9',
@@ -116,7 +149,8 @@ const styles = {
     bookList: css({
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '1rem',
+        paddingTop: '0.5rem',
+        gap: '0.5rem',
         [mq[1]]: { gridTemplateColumns: '1fr' },
     }),
     pageNav: {

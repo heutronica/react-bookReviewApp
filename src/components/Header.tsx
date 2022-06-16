@@ -64,9 +64,9 @@ export const Header = () => {
 const styles = {
     header: css({
         position: 'relative',
-        padding: ' 1.2rem',
+        padding: ' 0.5rem',
         [mq[0]]: {
-            padding: '0 1.2rem 1.2rem 1.2rem',
+            padding: '0 0.2rem 0.2rem 0.2rem',
         },
     }),
     wrapper: css({
@@ -75,9 +75,11 @@ const styles = {
         alignItems: 'center',
         maxWidth: theme.breakpoints.lg,
         margin: '0 auto',
-        padding: '1rem clamp(0.5rem, 3vw, 2rem)',
-        border: 'solid 1px',
+        padding: '0 clamp(0.5rem, 3vw, 2rem)',
+        border: theme.border.md,
+        borderRadius: theme.radius.md,
         borderColor: theme.black,
+        backgroundColor: theme.paperWhite,
         [mq[0]]: {
             paddingTop: '2.2rem',
             borderTopLeftRadius: 0,
@@ -94,8 +96,8 @@ const styles = {
     }),
     title: css({
         textDecoration: 'none',
-        fontSize: '1.5rem',
-        fontWeight: '700',
+        fontSize: '2.5rem',
+        fontWeight: '800',
         color: theme.black,
     }),
 }

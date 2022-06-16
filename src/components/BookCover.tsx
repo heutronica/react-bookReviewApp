@@ -44,7 +44,7 @@ const styles = {
         padding: '15%',
         overflow: 'hidden',
         wordBreak: 'break-word',
-        border: 'solid 1px',
+        border: theme.border.md,
         borderColor: theme.black,
     }),
     title: css({

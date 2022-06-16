@@ -11,6 +11,21 @@ export const globalStyle = {
     body: css({
         fontFamily: 'Open Sans, Noto Sans JP, sans-serif',
         color: theme.black,
+        //backgroundColor: theme.colors.medium.default,
+        backgroundImage: `repeating-linear-gradient(
+              90deg,
+              #000 ,
+              #000 1px,
+              transparent 1px,
+              transparent 60px
+            ),
+            repeating-linear-gradient(
+              0deg,
+              #000 ,
+              #000 1px,
+              #ddd 1px,
+              #ddd 60px
+            )`,
     }),
     p: css({
         margin: '0',

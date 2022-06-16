@@ -144,7 +144,9 @@ const styles = {
         maxWidth: theme.breakpoints.lg,
         gridTemplateColumns: '1fr clamp(200px, 70vw, 800px)',
         gridTemplateRows: '1fr',
-        border: 'solid 2px',
+        border: theme.border.md,
+        borderRadius: theme.radius.md,
+        backgroundColor: theme.white,
         borderColor: theme.black,
         [mq[1]]: {
             gridTemplateColumns: '1fr',

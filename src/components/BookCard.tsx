@@ -52,8 +52,10 @@ const styles = {
         rowGap: '1rem',
         justifyContent: 'space-between',
         padding: 'clamp(0.5rem, 3vw, 2rem)',
-        border: '1px solid',
+        border: theme.border.md,
+        borderRadius: theme.radius.md,
         borderColor: theme.black,
+        backgroundColor: theme.paperWhite,
     }),
     review: css({
         display: '-webkit-box',
@@ -69,9 +71,11 @@ const styles = {
             gridColumnGap: '20px',
             gridRowGap: '10px',
 
-            backgroundColor: theme.defaultColors.gray[1],
+            backgroundColor: theme.defaultColors.gray[2],
             borderRadius: theme.radius.md,
             padding: '20px',
+            border: theme.border.sm,
+            borderColor: theme.black,
         }),
         detailWrapper: css({
             display: 'flex',

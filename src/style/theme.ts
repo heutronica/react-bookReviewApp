@@ -17,7 +17,7 @@ export const theme: defaultTheme = {
         },
         tertiary: {
             default: '#F29138',
-            contrast: '#000000',
+            contrast: '#393533',
             shade: '#d58031',
             tint: '#f39c4c',
         },
@@ -30,7 +30,7 @@ export const theme: defaultTheme = {
         },
         warning: {
             default: '#ffc409',
-            contrast: '#000000',
+            contrast: '#393533',
             shade: '#e0ac08',
             tint: '#ffca22',
         },
@@ -43,19 +43,20 @@ export const theme: defaultTheme = {
         },
         medium: {
             default: '#92949c',
-            contrast: '#000000',
+            contrast: '#393533',
             shade: '#808289',
             tint: '#9d9fa6',
         },
         light: {
             default: '#f4f5f8',
-            contrast: '#000000',
+            contrast: '#393533',
             shade: '#d7d8da',
             tint: '#f5f6f9',
         },
     },
     black: '#393533',
     white: '#ffffff',
+    paperWhite: '#ece5dd',
     breakpoints: {
         sm: '380px',
         md: '780px',
@@ -69,6 +70,10 @@ export const theme: defaultTheme = {
     shadow: {
         sm: '1px 1px 0 0px #393533',
         md: '3px 3px 0 2px #393533',
+    },
+    border: {
+        sm: 'solid 1px',
+        md: 'solid 3px',
     },
     fontSizes: {
         //https://min-max-calculator.9elements.com/

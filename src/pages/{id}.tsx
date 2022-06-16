@@ -91,14 +91,18 @@ export const Detail = () => {
 
 const styles = {
     main: css({
-        padding: '40px 1.2rem',
+        padding: '0 0 0 0.1rem',
         [mq[0]]: {
-            padding: '50px 0',
+            padding: '0 0.1rem',
         },
     }),
     wrapper: css({
         display: 'grid',
         gridTemplateColumns: '200px 1fr',
+        border: theme.border.md,
+        borderRadius: theme.radius.md,
+        backgroundColor: theme.white,
+        padding: '2rem',
         margin: '0 auto',
         maxWidth: theme.breakpoints.lg,
         columnGap: '50px',
@@ -164,7 +168,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         padding: '3vh clamp(1rem, 5vw, 4rem)',
-        border: '1px solid',
+        border: theme.border.sm,
         borderColor: theme.black,
         rowGap: '30px',
         [mq[0]]: {

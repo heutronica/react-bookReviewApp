@@ -21,8 +21,10 @@ declare interface defaultTheme {
     }
     black: string
     white: string
+    paperWhite: string
     breakpoints: Record<'sm' | 'md' | 'lg', string>
     radius: Record<'sm' | 'md' | 'lg', string>
     shadow: Record<'sm' | 'md', string>
+    border: Record<'sm' | 'md', string>
     fontSizes: Record<'sm' | 'md' | 'lg', string>
 }

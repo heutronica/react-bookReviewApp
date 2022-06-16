@@ -84,13 +84,13 @@ const breakpoints = Object.values(theme.breakpoints)
 const mq = breakpoints.map((bp) => `@media (max-width: ${bp})`)
 
 const styles = {
-    main: css({ padding: '0 1.2rem' }),
+    main: css({ padding: '0 0.5rem' }),
     bookList: css({
         margin: '0 auto',
         maxWidth: theme.breakpoints.lg,
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '1rem',
+        gap: '0.5rem',
         [mq[1]]: { gridTemplateColumns: '1fr' },
     }),
     pageNav: {
@@ -98,7 +98,7 @@ const styles = {
             display: 'flex',
             flexBasis: 'auto',
             justifyContent: 'space-between',
-            columnGap: '1rem',
+            columnGap: '0.1rem',
             padding: '2rem 0',
 
             [mq[0]]: {

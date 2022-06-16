@@ -31,7 +31,7 @@ const styles = {
         cursor: 'pointer',
         boxShadow: theme.shadow.sm,
         textDecoration: 'none',
-        border: 'solid 1px',
+        border: theme.border.md,
         borderColor: theme.black,
 
         '&:hover,:focus': {
@@ -41,8 +41,8 @@ const styles = {
         },
     }),
     filled: css({
-        backgroundColor: theme.colors.primary.default,
-        color: theme.white,
+        backgroundColor: theme.colors.tertiary.default,
+        color: theme.colors.tertiary.contrast,
 
         '&:hover,:focus': {
             //backgroundColor: theme.colors.secondaryTint,
